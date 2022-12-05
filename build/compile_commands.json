@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/vozarv/projects/openGL_tutorial/build",
+  "command": "/usr/bin/g++ -isystem /usr/lib -g -o CMakeFiles/OpenGL_tutorial.dir/src/main.cpp.o -c /home/vozarv/projects/openGL_tutorial/src/main.cpp",
+  "file": "/home/vozarv/projects/openGL_tutorial/src/main.cpp"
+},
+{
+  "directory": "/home/vozarv/projects/openGL_tutorial/build",
+  "command": "/usr/bin/g++ -isystem /usr/lib -g -o CMakeFiles/OpenGL_tutorial.dir/src/display.cpp.o -c /home/vozarv/projects/openGL_tutorial/src/display.cpp",
+  "file": "/home/vozarv/projects/openGL_tutorial/src/display.cpp"
+},
+{
+  "directory": "/home/vozarv/projects/openGL_tutorial/build",
+  "command": "/usr/bin/g++ -isystem /usr/lib -g -o CMakeFiles/OpenGL_tutorial.dir/src/shader.cpp.o -c /home/vozarv/projects/openGL_tutorial/src/shader.cpp",
+  "file": "/home/vozarv/projects/openGL_tutorial/src/shader.cpp"
+}
+]

@@ -1,0 +1,5 @@
+# ninja log v5
+1	612	1670248172340471838	CMakeFiles/OpenGL_tutorial.dir/src/shader.cpp.o	854cf1775d1a6d72
+0	1046	1670248172772463448	CMakeFiles/OpenGL_tutorial.dir/src/main.cpp.o	794d305ae719a001
+1	1085	1670248172812462671	CMakeFiles/OpenGL_tutorial.dir/src/display.cpp.o	4aaadf9c0270ed56
+1085	1281	1670248173004458942	OpenGL_tutorial	fc187a21af84f699
