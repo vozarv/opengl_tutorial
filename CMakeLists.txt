@@ -7,7 +7,8 @@ enable_testing()
 add_executable(OpenGL_tutorial 
     src/main.cpp
     src/display.cpp
-    src/shader.cpp)
+    src/shader.cpp
+    src/mesh.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

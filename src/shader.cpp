@@ -48,7 +48,7 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType)
     
 
     if(shader == 0){
-        std::cerr << "Error: shader creation failed" << std::endl;
+        std::cerr << "Error: Shader creation failed" << std::endl;
     }
 
     const GLchar* shaderSourceStrings[1];
