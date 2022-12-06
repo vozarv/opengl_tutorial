@@ -1,6 +1,7 @@
 #include "shader.hpp"
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 static std::string LoadShader(const std::string& fileName);
@@ -23,8 +24,17 @@ Shader::Shader(const std::string& fileName)
     glLinkProgram(m_program);
     CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Program linking failed: ");
 
+
+
     glValidateProgram(m_program);
     CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
+
+    int maxLength = 1024;
+	std::vector<GLchar> infoLog(maxLength);
+	glGetProgramInfoLog(m_program, maxLength, &maxLength, &infoLog[0]);
+
+    std::string k = infoLog.data();
+    std::cout << "Info log: " << k << std::endl;
 }
 
 Shader::~Shader()
@@ -44,6 +54,9 @@ void Shader::Bind()
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)
 {
+
+    std::cout << text << std::endl;
+
     GLuint shader = glCreateShader(shaderType);
     
 

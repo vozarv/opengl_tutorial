@@ -6,7 +6,6 @@
 
 Display::Display(int width, int height, const std::string& title)
 {
-    std::cout << "Constructor"<<std::endl;
 
     SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -33,7 +32,6 @@ Display::Display(int width, int height, const std::string& title)
 
 Display::~Display()
 {
-    std::cout << "Destructor"<<std::endl;
 
     SDL_GL_DeleteContext(m_glContext);
     SDL_DestroyWindow(m_window);
