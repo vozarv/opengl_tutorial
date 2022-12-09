@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "shader.hpp"
 #include "mesh.hpp"
+#include "texture.hpp"
 
 
 int main(int, char**) {
@@ -12,10 +13,11 @@ int main(int, char**) {
     Display display(800, 600, "Hello World!");
 
     Shader shader("./res/basicShader");
+    Texture texture("./res/bricks.jpg");
 
-    Vertex vertices[] = {   Vertex(glm::vec3(-0.25,-0.25,0)),
-                            Vertex(glm::vec3(0,0.25,0)),
-                            Vertex(glm::vec3(0.25,-0.25,0))};
+    Vertex vertices[] = {   Vertex(glm::vec3(-0.5,-0.5,0), glm::vec2(-0.5,-0.5)),
+                            Vertex(glm::vec3(0,0.5,0), glm::vec2(0,0.5)),
+                            Vertex(glm::vec3(0.5,-0.5,0), glm::vec2(0.5,-0.5))};
 
     Mesh mesh(vertices, sizeof(vertices)/sizeof(vertices[0]));
 
@@ -36,6 +38,7 @@ int main(int, char**) {
 
         display.Clear(r, 0.15f, 0.3f, 1.0f);
         shader.Bind();
+        texture.Bind(0);
         mesh.Draw();
         display.Update();
         usleep(10000);

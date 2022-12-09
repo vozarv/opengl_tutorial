@@ -11,35 +11,28 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType);
 Shader::Shader(const std::string& fileName)
 {
     m_program = glCreateProgram();
+
     m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
     m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
 
-    for(unsigned int i; i < NUM_SHADERS; i++)
+    for(unsigned int i = 0; i < NUM_SHADERS; i++)
     {
         glAttachShader(m_program, m_shaders[i]);
     }
 
     glBindAttribLocation(m_program, 0, "position"); 
+    glBindAttribLocation(m_program, 1, "texCoord");
 
     glLinkProgram(m_program);
     CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Program linking failed: ");
 
-
-
     glValidateProgram(m_program);
     CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
-
-    int maxLength = 1024;
-	std::vector<GLchar> infoLog(maxLength);
-	glGetProgramInfoLog(m_program, maxLength, &maxLength, &infoLog[0]);
-
-    std::string k = infoLog.data();
-    std::cout << "Info log: " << k << std::endl;
 }
 
 Shader::~Shader()
 {
-    for(unsigned int i; i < NUM_SHADERS; i++)
+    for(unsigned int i = 0; i < NUM_SHADERS; i++)
     {
         glDetachShader(m_program, m_shaders[i]);
         glDeleteShader(m_shaders[i]);
@@ -54,9 +47,6 @@ void Shader::Bind()
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)
 {
-
-    std::cout << text << std::endl;
-
     GLuint shader = glCreateShader(shaderType);
     
 
@@ -73,9 +63,6 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType)
     glCompileShader(shader);
 
     CheckShaderError(shader, GL_COMPILE_STATUS, false, "Error: Shader compilation failed: ");
-
-
-
 
     return shader;
 }
