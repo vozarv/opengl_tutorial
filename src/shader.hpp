@@ -2,6 +2,7 @@
 
 #include <string>
 #include "GL/glew.h"
+#include "transform.hpp"
 
 class Shader
 {
@@ -11,15 +12,24 @@ class Shader
         Shader(const std::string& fileName);
 
         void Bind();
+        void Update(const Transform& transform);
 
         virtual ~ Shader();
     
     protected:
     private:
 
+        enum
+        {
+            TRANSFORM_U,
+
+            NUM_UNIFORMS
+        };
+
         static const unsigned int NUM_SHADERS = 2;
 
         GLuint m_program;
         GLuint m_shaders[NUM_SHADERS];
+        GLuint m_uniforms[NUM_UNIFORMS];
 
 };
