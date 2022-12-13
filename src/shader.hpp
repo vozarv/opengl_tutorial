@@ -13,7 +13,7 @@ class Shader
         Shader(const std::string& fileName);
 
         void Bind();
-        void Update(const Transform& transform, const Camera& camera);
+        void Update(const Transform& transform, const Camera& camera, const float& lightIntensity);
 
         virtual ~ Shader();
     
@@ -23,7 +23,8 @@ class Shader
         enum
         {
             TRANSFORM_U,
-
+            LIGHT_INTENSITY_U,
+            
             NUM_UNIFORMS
         };
 
