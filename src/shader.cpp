@@ -32,6 +32,8 @@ Shader::Shader(const std::string& fileName)
 
     m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
     m_uniforms[LIGHT_INTENSITY_U] = glGetUniformLocation(m_program, "lightIntensity");
+    m_uniforms[LIGHT_DIRECTION_U] = glGetUniformLocation(m_program, "lightDirection");
+    m_uniforms[COLOR_U] = glGetUniformLocation(m_program, "color");
 }
 
 Shader::~Shader()
@@ -49,11 +51,13 @@ void Shader::Bind()
     glUseProgram(m_program);
 }
 
-void Shader::Update(const Transform& transform, const Camera& camera, const float& lightIntensity)
+void Shader::Update(const Transform& transform, const Camera& camera, const float& lightIntensity, glm::vec3 lightDirection, glm::vec4 color)
 {
     glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
     glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
     glUniform1f(m_uniforms[LIGHT_INTENSITY_U], lightIntensity);
+    glUniform3f(m_uniforms[LIGHT_DIRECTION_U], lightDirection.x, lightDirection.y, lightDirection.z);
+    glUniform4f(m_uniforms[COLOR_U], color.r, color.g, color.b, color.a);
 }
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)

@@ -5,7 +5,7 @@ layout (location = 1) in vec2 texCoord;
 layout (location = 2) in vec3 normal;
 
 varying vec2 texCoord0;
-varying vec3 normal0;
+varying vec3 normal0; //TODO add color to layout and varying
 
 uniform mat4 transform;
 

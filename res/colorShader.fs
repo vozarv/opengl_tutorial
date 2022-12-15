@@ -6,11 +6,12 @@ varying vec3 normal0;
 
 uniform sampler2D diffuse; //TODO deprecated
 uniform float lightIntensity;
-
+uniform vec3 lightDirection;
+uniform vec4 color; //TODO varying
 
 
 void main()
 {
-    vec3 lightDirection = vec3(0,0,1) * lightIntensity; // TODO változtatható fény irány
-    FragColor = vec4(1.0,0.0,0.0,1.0) * clamp(max(dot(-lightDirection, normal0),dot(lightDirection, normal0)), 0.0, 1.0);  //TODO választható szín
+    vec3 light = lightDirection * lightIntensity;
+    FragColor = color * clamp(max(dot(-light, normal0),dot(light, normal0)), 0.0, 1.0);
 } 
