@@ -49,6 +49,7 @@ int main(int, char**) {
     Mesh mesh_monkey("./res/monkey3.obj");
     Mesh mesh_tetrahedron("./res/tetrahedron.obj");
     Mesh mesh_cube("./res/cube.obj");
+    Mesh mesh_logo("./res/logo.obj");
 
     glm::vec4 background_color = glm::vec4(0, 0.15f, 0.1f, 1.0f);
     glm::vec3 lightDirection = glm::vec3(0,0,1);
@@ -82,7 +83,16 @@ int main(int, char**) {
         transform_rot.GetPos().x = 3;
         transform_rot.GetPos().y = 0;
         transform_rot.GetPos().z = -1;
-        DrawOnScreen(camera, mesh_monkey, shader_color, texture_bricks, transform_rot, lightIntensity, lightDirection, color);                
+        DrawOnScreen(camera, mesh_monkey, shader_color, texture_bricks, transform_rot, lightIntensity, lightDirection, color);    
+
+        transform_rot.GetPos().x = 0;
+        transform_rot.GetPos().y = 0;
+        transform_rot.GetPos().z = 0;
+        transform_rot.GetRot().x = counter / 20;
+        transform_rot.GetRot().y = 0;
+        transform_rot.GetRot().z = 3.14 / 2;
+
+        DrawOnScreen(camera, mesh_logo, shader_color, texture_bricks, transform_rot, lightIntensity, lightDirection, color);              
   
         display.Update();
 
