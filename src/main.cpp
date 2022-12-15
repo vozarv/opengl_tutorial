@@ -11,24 +11,28 @@
 
 #define WIDTH 800 //TODO getter in display
 #define HEIGHT 600 //TODO getter in display
+
+void DrawOnScreen(){
+    //TODO
+}
  
 
 int main(int, char**) {
 
     Display display(WIDTH, HEIGHT, "Hello Monkey!");
 
-    Shader shader("./res/basicShader");
+    Shader shader("./res/textureShader");
     Texture texture("./res/bricks.jpg");
     Transform transform;
     Camera camera(glm::vec3(0,0,-5), 70.0f, (float)WIDTH/(float)HEIGHT, 0.01f, 1000.0f);
 
     float counter = 0.0f;
-                   
-
-    unsigned int indices[] = { 0, 1, 2};
-    Mesh mesh_triangle(triangle, sizeof(triangle)/sizeof(triangle[0]), indices, sizeof(indices)/sizeof(indices[0]));
-    Mesh mesh_triangle2(triangle_z, sizeof(triangle_z)/sizeof(triangle_z[0]), indices, sizeof(indices)/sizeof(indices[0]));
-    Mesh mesh2("./res/monkey3.obj");
+            
+    //Mesh mesh_triangle(triangle, sizeof(triangle)/sizeof(triangle[0]), triangle_indices, sizeof(triangle_indices)/sizeof(triangle_indices[0]));
+    Mesh mesh_triangle("./res/triangle.obj");
+    Mesh mesh_monkey("./res/monkey3.obj");
+    Mesh mesh_tetrahedron("./res/tetrahedron.obj");
+    Mesh mesh_cube("./res/cube.obj");
 
     float r = 0;
     float g = 0.15f;
@@ -39,22 +43,25 @@ int main(int, char**) {
     while(!display.IsClosed())
     {
 
-
+        /*
         if(r > 1)
             sign = -1;
         if(r < 0)
             sign = 1;
 
         r += sign * 0.01f;
+        */
         /*
         lightIntensity -= sign * 0.01f;
         if(lightIntensity < 0.2)
             lightIntensity = 0.2;
         */
         lightIntensity = 1.0f;
-        transform.GetPos().x = sinf(counter / 10);
-        transform.GetPos().z = cosf(counter / 10);
-        transform.GetRot().y = counter / 10;
+        //transform.GetPos().x = sinf(counter / 10);
+        //transform.GetPos().z = cosf(counter / 10);
+        //transform.GetRot().x = counter / 11;
+        transform.GetRot().y = -counter / 10;
+        //transform.GetRot().z = counter / 23;
         //transform.GetScale() = glm::vec3(1.0,1.0,1.0) * abs(cosf(counter / 23));
 
 
@@ -64,14 +71,15 @@ int main(int, char**) {
         shader.Bind();
         texture.Bind(0);
         shader.Update(transform, camera, lightIntensity);
-        mesh2.Draw();
-        mesh_triangle.Draw();
-        //mesh_triangle2.Draw();
+
+
+        //mesh_monkey.Draw();
+        //mesh_tetrahedron.Draw();
+        mesh_cube.Draw();
+        //mesh_triangle.Draw();
+
 
         display.Update();
-
-
-
         counter += 0.1f;
         usleep(10000);
     }
