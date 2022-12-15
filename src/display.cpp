@@ -31,8 +31,11 @@ Display::Display(int width, int height, const std::string& title)
 
     glEnable(GL_DEPTH_TEST);
 
+    //Csak konvex modelleknél
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
+
+    SDL_SetWindowResizable(m_window, SDL_TRUE);
 
 }
 
