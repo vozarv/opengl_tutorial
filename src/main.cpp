@@ -39,6 +39,7 @@ int main(int, char**) {
     Shader shader_color("./res/colorShader");
     Texture texture_bricks("./res/bricks.jpg"); 
     Texture texture_torch("./res/torch.jpg");
+    Texture texture_camouflage("./res/camouflage.jpg");
 
     Transform transform_rot;
     Camera camera(glm::vec3(0,0,-7), 70.0f, (float)WIDTH/(float)HEIGHT, 0.01f, 1000.0f);
@@ -83,7 +84,7 @@ int main(int, char**) {
         transform_rot.GetPos().x = 3;
         transform_rot.GetPos().y = 0;
         transform_rot.GetPos().z = -1;
-        DrawOnScreen(camera, mesh_monkey, shader_color, texture_bricks, transform_rot, lightIntensity, lightDirection, color);    
+        DrawOnScreen(camera, mesh_monkey, shader_tex, texture_camouflage, transform_rot, lightIntensity, lightDirection, color);    
 
         transform_rot.GetPos().x = 0;
         transform_rot.GetPos().y = 0;
@@ -92,7 +93,7 @@ int main(int, char**) {
         transform_rot.GetRot().y = 0;
         transform_rot.GetRot().z = 3.14 / 2;
 
-        DrawOnScreen(camera, mesh_logo, shader_color, texture_bricks, transform_rot, lightIntensity, lightDirection, color);              
+        DrawOnScreen(camera, mesh_logo, shader_tex, texture_camouflage, transform_rot, lightIntensity, lightDirection, color);              
   
         display.Update();
 
