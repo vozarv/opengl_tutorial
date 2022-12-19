@@ -1,21 +1,18 @@
 #pragma once
 
+#include <GL/glew.h>
 #include <stdio.h>
 #include <string>
-#include <GL/glew.h>
 
-class Texture
-{
-    public:
+class Texture {
+public:
+  Texture(const std::string &fileName);
 
-        Texture(const std::string& fileName);
+  void Bind(unsigned int unit);
 
-        void Bind(unsigned int unit);
+  ~Texture();
 
-        ~Texture();
-        
-    protected:
-    private:
-
-    GLuint m_texture;
+protected:
+private:
+  GLuint m_texture;
 };
