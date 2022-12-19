@@ -75,10 +75,13 @@ void Mesh::InitMesh(const IndexedModel& model)
     glBindVertexArray(0);
 }
 
-void Mesh::Draw()
+void Mesh::Draw(bool wireFrameMode)
 {
         glBindVertexArray(m_vertexArrayObject);
-
+        if(wireFrameMode)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
         glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
         //glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 
