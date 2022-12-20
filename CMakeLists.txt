@@ -26,8 +26,15 @@ find_package(glm REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
 
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
-DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
+#DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW SDL2 glm::glm OpenGL glfw) 
+
+add_custom_command(
+  TARGET OpenGL_tutorial
+  PRE_BUILD
+  COMMAND ${CMAKE_COMMAND}
+  ARGS -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/res/ ${CMAKE_CURRENT_BINARY_DIR}/res/
+  )
