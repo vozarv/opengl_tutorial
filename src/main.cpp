@@ -43,7 +43,8 @@ int main(int, char **) {
   Texture texture_torch("./res/torch.jpg");
   Texture texture_camouflage("./res/camouflage.jpg");
 
-  Transform transform_rot;
+  Transform transform_logo;
+  transform_logo.SetScale(glm::vec3(2, 2.5, 2));
   Camera camera(glm::vec3(0, 0, 7), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f,
                 1000.0f);
   float counter = 0.0f;
@@ -60,26 +61,33 @@ int main(int, char **) {
   glm::vec3 lightDirection = glm::vec3(0, 0, 1);
   glm::vec4 color = glm::vec4(1, 0, 0, 1);
   float lightIntensity = 1.0f;
-  int sign = 1;
+
+  Transform transform[10];
+  for (int i = 0; i < 10; i++) {
+    transform[i].SetScale(glm::vec3(0.5, 0.5, 0.5));
+    transform[i].SetPos(
+        glm::vec3(10 * cosf(2 * PI * i / 10), 10 * sinf(2 * PI * i / 10), -3));
+  }
 
   while (!display.IsClosed()) {
 
     keyboard.Update(camera, display);
-
-    lightDirection = glm::vec3(cosf(counter / 20), sinf(counter / 20), 0);
-    color.b = abs(cosf(counter / 30));
-    color.g = abs(cosf(counter / 50));
+    // lightDirection = glm::vec3(cosf(counter / 20), sinf(counter / 20), 0);
+    // color = glm::vec4(0, 1, abs(cosf(counter / 30)), 1);
 
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
-    transform_rot.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
-    transform_rot.SetScale(glm::vec3(2, 2.5, 2));
+    transform_logo.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
 
-    DrawOnScreen(camera, mesh_logo, shader_tex, texture_torch, transform_rot,
+    for (int i = 0; i < 10; i++) {
+      transform[i].SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
+      DrawOnScreen(camera, mesh_cube, shader_color, texture_torch, transform[i],
+                   lightIntensity, lightDirection, color);
+    }
+
+    DrawOnScreen(camera, mesh_logo, shader_tex, texture_torch, transform_logo,
                  lightIntensity, lightDirection, color);
-    // DrawOnScreen(camera, mesh_triangle, shader_color, texture_camouflage,
-    // transform_rot, lightIntensity, lightDirection, color);
 
     display.Update();
 

@@ -7,6 +7,8 @@
 #include <glm/geometric.hpp>
 #include <iostream>
 
+// TODO rename this class to Control and add mouse input
+
 Keyboard::Keyboard() {
 
   lastFrame = std::chrono::duration_cast<std::chrono::milliseconds>(
