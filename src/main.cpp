@@ -84,6 +84,6 @@ int main(int, char **) {
     display.Update();
 
     counter += 0.1f;
-    usleep(10000);
+    usleep(1000);
   }
 }

@@ -16,6 +16,8 @@ public:
 
 protected:
 private:
-  float lastFrame = 0;
-  time_t deltaTime = 0;
+  int lastFrame;
+  int deltaTime;
+  float m_baseTurningSpeed = 0.01f;
+  float m_baseMovementSpeed = 0.1f;
 };

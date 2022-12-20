@@ -2,45 +2,62 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_scancode.h>
+#include <chrono>
+#include <glm/common.hpp>
+#include <glm/geometric.hpp>
 #include <iostream>
 
-Keyboard::Keyboard() {}
+Keyboard::Keyboard() {
+
+  lastFrame = std::chrono::duration_cast<std::chrono::milliseconds>(
+                  (std::chrono::system_clock::now()).time_since_epoch())
+                  .count();
+
+  deltaTime = 0;
+}
 
 Keyboard::~Keyboard() {}
 
 void Keyboard::Update(Camera &camera, Display &display) {
 
-  // auto currentFrame = std::chrono::system_clock::now();
-  // deltaTime = currentFrame - lastFrame;
-  // lastFrame = currentFrame;
+  auto currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                         (std::chrono::system_clock::now()).time_since_epoch())
+                         .count();
 
-  // std::cout << lastFrame << std::endl;
+  deltaTime = currentTime - lastFrame;
+  lastFrame = currentTime;
+
+  float sensitivity = glm::clamp(deltaTime / 20.0f, 0.01f, 100.0f);
 
   const Uint8 *currentKeyStates = SDL_GetKeyboardState(NULL);
 
   if (currentKeyStates[SDL_SCANCODE_ESCAPE]) {
     display.Close();
   }
-
   if (currentKeyStates[SDL_SCANCODE_W]) {
-    camera.RotateTilt(0.01);
+    camera.RotateTilt(m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_S]) {
-    camera.RotateTilt(-0.01);
+    camera.RotateTilt(-1 * m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_A]) {
-    camera.RotatePan(0.01);
+    camera.RotatePan(m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_D]) {
-    camera.RotatePan(-0.01);
+    camera.RotatePan(-1 * m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_Q]) {
-    camera.RotateRoll(-0.01);
+    camera.RotateRoll(-1 * m_baseTurningSpeed * sensitivity);
+  }
+  if (currentKeyStates[SDL_SCANCODE_E]) {
+    camera.RotateRoll(m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_UP]) {
-    camera.Move(camera.GetForward() / 10.0f);
+    camera.Move(m_baseMovementSpeed * sensitivity *
+                glm::normalize(camera.GetForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_DOWN]) {
-    camera.Move(camera.GetForward() / -10.0f);
+    camera.Move(-1 * m_baseMovementSpeed * sensitivity *
+                glm::normalize(camera.GetForward()));
   }
 }
