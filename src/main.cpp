@@ -1,7 +1,8 @@
 #include "camera.hpp"
 #include "display.hpp"
-#include "keyboard.hpp"
 #include "mesh.hpp"
+
+#include "keyboard.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
 #include "transform.hpp"
@@ -63,7 +64,7 @@ int main(int, char **) {
 
   while (!display.IsClosed()) {
 
-    keyboard.Update(camera);
+    keyboard.Update(camera, display);
 
     lightDirection = glm::vec3(cosf(counter / 20), sinf(counter / 20), 0);
     color.b = abs(cosf(counter / 30));

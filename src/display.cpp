@@ -56,6 +56,8 @@ void Display::Update() {
   }
 }
 
+void Display::Close() { m_is_closed = true; }
+
 bool Display::IsClosed() { return m_is_closed; }
 
 void Display::Clear(float r, float g, float b, float a) {

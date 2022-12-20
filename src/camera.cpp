@@ -1,5 +1,4 @@
 #include "camera.hpp"
-#include <glm/gtx/transform.hpp>
 
 Camera::Camera(const glm::vec3 &pos, float fov, float aspect, float zNear,
                float zFar) {
