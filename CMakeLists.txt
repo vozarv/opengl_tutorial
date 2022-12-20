@@ -11,7 +11,10 @@ add_executable(OpenGL_tutorial
     src/mesh.cpp
     src/stb_image.c
     src/texture.cpp
-    src/obj_loader.cpp)
+    src/obj_loader.cpp
+    src/keyboard.cpp
+    src/camera.cpp
+    )
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
