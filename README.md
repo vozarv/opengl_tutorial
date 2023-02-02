@@ -42,3 +42,11 @@ f 2/1 3/2 4/3
 
 ## CMRC install
 https://github.com/vector-of-bool/cmrc
+
+
+## 
+sudo apt-get install libglew-dev
+sudo apt-get install libsdl2-dev
+sudo apt-get install libgl-dev
+sudo apt-get install libglm-dev
+sudo apt-get install libglfw3-dev
