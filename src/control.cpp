@@ -1,4 +1,4 @@
-#include "keyboard.hpp"
+#include "control.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_scancode.h>
@@ -7,20 +7,24 @@
 #include <glm/geometric.hpp>
 #include <iostream>
 
-// TODO rename this class to Control and add mouse input
+#include <SDL2/SDL_mouse.h>
 
-Keyboard::Keyboard() {
+// TODO add mouse input
+
+Control::Control() {
 
   lastFrame = std::chrono::duration_cast<std::chrono::milliseconds>(
                   (std::chrono::system_clock::now()).time_since_epoch())
                   .count();
 
   deltaTime = 0;
+
+  SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
-Keyboard::~Keyboard() {}
+Control::~Control() {}
 
-void Keyboard::Update(Camera &camera, Display &display) {
+void Control::Update(Camera &camera, Display &display) {
 
   auto currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                          (std::chrono::system_clock::now()).time_since_epoch())
@@ -62,4 +66,25 @@ void Keyboard::Update(Camera &camera, Display &display) {
     camera.Move(-1 * m_baseMovementSpeed * sensitivity *
                 glm::normalize(camera.GetForward()));
   }
+
+
+  int w = display.getWidth() / 2;
+  int h = display.getHeight() / 2;
+  int x = 0;
+  int y = 0;
+
+  //SDL_GetMouseState(&x, &y);
+
+  SDL_Event event;
+  SDL_PollEvent(&event);
+  if(event.type == SDL_MOUSEMOTION){
+    x = event.motion.xrel;
+    y = event.motion.yrel;
+  }
+
+  camera.RotatePan(-x / 3 * m_baseTurningSpeed * sensitivity);    
+  camera.RotateTilt(-y / 3 * m_baseTurningSpeed * sensitivity);
+
+  //std::cout << x << " " << y << std::endl;
+  //display.centerMouse();
 }

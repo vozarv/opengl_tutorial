@@ -12,7 +12,7 @@ add_executable(OpenGL_tutorial
     src/stb_image.c
     src/texture.cpp
     src/obj_loader.cpp
-    src/keyboard.cpp
+    src/control.cpp
     src/camera.cpp
     )
 

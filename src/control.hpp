@@ -7,11 +7,11 @@
 #include <bits/types/time_t.h>
 #include <chrono>
 
-class Keyboard {
+class Control {
 
 public:
-  Keyboard();
-  ~Keyboard();
+  Control();
+  ~Control();
   void Update(Camera &camera, Display &display);
 
 protected:
@@ -20,4 +20,5 @@ private:
   int deltaTime;
   float m_baseTurningSpeed = 0.01f;
   float m_baseMovementSpeed = 0.1f;
+  //glm::vec2 mousePosition;
 };

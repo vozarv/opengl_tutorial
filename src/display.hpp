@@ -14,6 +14,9 @@ public:
   bool IsClosed();
   void Clear(float r, float g, float b, float a);
   void Close();
+  void centerMouse();
+  int getWidth(){ return m_width; }
+  int getHeight() { return m_height; }
 
   virtual ~Display();
 
@@ -22,4 +25,5 @@ private:
   SDL_Window *m_window;
   SDL_GLContext m_glContext;
   bool m_is_closed;
+  int m_width, m_height;
 };

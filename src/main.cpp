@@ -2,7 +2,7 @@
 #include "display.hpp"
 #include "mesh.hpp"
 
-#include "keyboard.hpp"
+#include "control.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
 #include "transform.hpp"
@@ -35,7 +35,7 @@ void DrawOnScreen(Camera camera, Mesh &mesh, Shader &shader, Texture &texture,
 int main(int, char **) {
 
   Display display(WIDTH, HEIGHT, "Hello PPE!");
-  Keyboard keyboard;
+  Control control;
 
   Shader shader_tex("./res/textureShader");
   Shader shader_color("./res/colorShader");
@@ -71,7 +71,8 @@ int main(int, char **) {
 
   while (!display.IsClosed()) {
 
-    keyboard.Update(camera, display);
+    control.Update(camera, display);
+
     // lightDirection = glm::vec3(cosf(counter / 20), sinf(counter / 20), 0);
     // color = glm::vec4(0, 1, abs(cosf(counter / 30)), 1);
 
