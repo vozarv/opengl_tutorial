@@ -16,6 +16,8 @@ public:
   inline glm::vec3 GetPosition() const { return m_position; }
   inline glm::vec3 GetForward() const { return m_forward; }
   inline glm::vec3 GetUp() const { return m_up; }
+  inline glm::vec3 GetLeft() const { return glm::cross(m_up, m_forward); }
+  inline glm::vec3 GetRight() const { return glm::cross(m_forward, m_up); }
 
   inline void SetPosition(const glm::vec3 position) { m_position = position; }
   inline void SetForward(const glm::vec3 forward) { m_forward = forward; }
