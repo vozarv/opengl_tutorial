@@ -1,8 +1,8 @@
 #version 330 core
 out vec4 FragColor;
 
-varying vec2 texCoord0;
-varying vec3 normal0;
+in vec2 texCoord0;
+in vec3 normal0;
 
 uniform sampler2D diffuse;
 uniform float lightIntensity;

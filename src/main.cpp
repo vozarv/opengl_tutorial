@@ -37,12 +37,12 @@ int main(int, char **) {
   Display display(WIDTH, HEIGHT, "Hello PPE!");
   Control control;
 
-  Shader shader_tex("./res/textureShader");
-  Shader shader_color("./res/colorShader");
-  Shader shader_light_source("./res/lightSourceShader");
-  Texture texture_bricks("./res/bricks.jpg");
-  Texture texture_torch("./res/torch.jpg");
-  Texture texture_camouflage("./res/camouflage.jpg");
+  Shader shader_tex("./res/shaders/textureShader");
+  Shader shader_color("./res/shaders/colorShader");
+  Shader shader_light_source("./res/shaders/lightSourceShader");
+  Texture texture_bricks("./res/textures/bricks.jpg");
+  Texture texture_torch("./res/textures/torch.jpg");
+  Texture texture_camouflage("./res/textures/camouflage.jpg");
 
   Transform transform_logo;
   transform_logo.SetScale(glm::vec3(2, 2.5, 2));
@@ -63,14 +63,15 @@ int main(int, char **) {
 
   // Mesh mesh_triangle(triangle, sizeof(triangle)/sizeof(triangle[0]),
   // triangle_indices, sizeof(triangle_indices)/sizeof(triangle_indices[0]));
-  Mesh mesh_triangle("./res/triangle.obj");
-  Mesh mesh_monkey("./res/monkey3.obj");
-  Mesh mesh_tetrahedron("./res/tetrahedron.obj");
-  Mesh mesh_cube("./res/cube.obj");
-  Mesh mesh_logo("./res/logo.obj");
+  Mesh mesh_triangle("./res/objects/triangle.obj");
+  Mesh mesh_monkey("./res/objects/monkey3.obj");
+  Mesh mesh_tetrahedron("./res/objects/tetrahedron.obj");
+  Mesh mesh_cube("./res/objects/cube.obj");
+  Mesh mesh_logo("./res/objects/logo.obj");
+  Mesh mesh_sphere("./res/objects/sphere.obj");
 
   glm::vec4 background_color = glm::vec4(0, 0.15f, 0.1f, 1.0f);
-  glm::vec3 lightDirection = glm::vec3(0, 0, 1);
+  glm::vec3 lightDirection = glm::vec3(0, 0, -1);
   glm::vec4 color = glm::vec4(1, 1, 1, 1);
   float lightIntensity = 1.0f;
 
@@ -88,8 +89,11 @@ int main(int, char **) {
 
     transform_light_source.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
 
-    DrawOnScreen(camera, mesh_cube, shader_light_source, texture_torch, transform_light_source,
+    DrawOnScreen(camera, mesh_sphere, shader_color, texture_torch, transform_light_source,
                  lightIntensity, lightDirection, color);
+
+
+
 
 /*
     transform_logo.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
