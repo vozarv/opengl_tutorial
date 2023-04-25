@@ -11,19 +11,33 @@ public:
   Shader(const std::string &fileName);
 
   void Bind();
-  void Update(const Transform &transform, const Camera &camera,
+  void Update(const Transform &transform, const Camera &camera/*,
               const float &lightIntensity, glm::vec3 lightDirection,
-              glm::vec4 color);
+              glm::vec4 color*/);
 
   virtual ~Shader();
 
 protected:
 private:
   enum {
-    TRANSFORM_U,
-    LIGHT_INTENSITY_U,
-    LIGHT_DIRECTION_U,
-    COLOR_U,
+    MODEL_U,
+    VIEW_U,
+
+    VIEWPOS_U,
+    MATERIAL_SHININESS_U,
+
+    DIRLIGHT_DIRECTION_U,
+    DIRLIGHT_AMBIENT_U,
+    DIRLIGHT_DIFFUSE_U,
+    DIRLIGHT_SPECULAR_U,
+
+    POINTLIGHT_POSITION_U,
+    POINTLIGHT_AMBIENT_U,
+    POINTLIGHT_DIFFUSE_U,
+    POINTLIGHT_SPECULAR_U,
+    POINTLIGHT_CONSTANT_U,
+    POINTLIGHT_LINEAR_U,
+    POINTLIGHT_QUADRATIC_U,
 
     NUM_UNIFORMS
   };
