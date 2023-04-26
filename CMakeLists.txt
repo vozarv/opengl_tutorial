@@ -14,6 +14,7 @@ add_executable(OpenGL_tutorial
     src/obj_loader.cpp
     src/control.cpp
     src/camera.cpp
+    src/player.cpp
     )
 
 

@@ -2,6 +2,7 @@
 
 #include "GLFW/glfw3.h"
 #include "camera.hpp"
+#include "player.hpp"
 #include "display.hpp"
 #include <SDL2/SDL_events.h>
 #include <bits/types/time_t.h>
@@ -12,7 +13,7 @@ class Control {
 public:
   Control();
   ~Control();
-  void Update(Camera &camera, Display &display);
+  void Update(Player &player, Display &display);
 
 protected:
 private:

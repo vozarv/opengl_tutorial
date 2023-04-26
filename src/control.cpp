@@ -24,7 +24,7 @@ Control::Control() {
 
 Control::~Control() {}
 
-void Control::Update(Camera &camera, Display &display) {
+void Control::Update(Player &player, Display &display) {
 
   auto currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                          (std::chrono::system_clock::now()).time_since_epoch())
@@ -41,35 +41,39 @@ void Control::Update(Camera &camera, Display &display) {
     display.Close();
   }
   if (currentKeyStates[SDL_SCANCODE_W]) {
-    camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(camera.GetForward()));
+    player.m_camera.Move(m_baseMovementSpeed * sensitivity *
+                glm::normalize(player.m_camera.GetForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_S]) {
-    camera.Move(-1 * m_baseMovementSpeed * sensitivity *
-                glm::normalize(camera.GetForward()));
+    player.m_camera.Move(-1 * m_baseMovementSpeed * sensitivity *
+                glm::normalize(player.m_camera.GetForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_A]) {
-    camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(camera.GetLeft()));
+    player.m_camera.Move(m_baseMovementSpeed * sensitivity *
+                glm::normalize(player.m_camera.GetLeft()));
   }
   if (currentKeyStates[SDL_SCANCODE_D]) {
-    camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(camera.GetRight()));
+    player.m_camera.Move(m_baseMovementSpeed * sensitivity *
+                glm::normalize(player.m_camera.GetRight()));
   }
   if (currentKeyStates[SDL_SCANCODE_Q]) {
-    camera.RotateRoll(-1 * m_baseTurningSpeed * sensitivity);
+    player.m_camera.RotateRoll(-1 * m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_E]) {
-    camera.RotateRoll(m_baseTurningSpeed * sensitivity);
+    player.m_camera.RotateRoll(m_baseTurningSpeed * sensitivity);
   }
   if (currentKeyStates[SDL_SCANCODE_SPACE]) {
-    camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(camera.GetUp()));
+    player.m_camera.Move(m_baseMovementSpeed * sensitivity *
+                glm::normalize(player.m_camera.GetUp()));
   }
   if (currentKeyStates[SDL_SCANCODE_LSHIFT]) {
-    camera.Move(-1 * m_baseMovementSpeed * sensitivity *
-                glm::normalize(camera.GetUp()));
+    player.m_camera.Move(-1 * m_baseMovementSpeed * sensitivity *
+                glm::normalize(player.m_camera.GetUp()));
   }
+  if (currentKeyStates[SDL_SCANCODE_R]) {
+    player.toggleLight();
+  }
+
 
   int w = display.getWidth() / 2;
   int h = display.getHeight() / 2;
@@ -85,8 +89,8 @@ void Control::Update(Camera &camera, Display &display) {
     y = event.motion.yrel;
   }
 
-  camera.RotatePan(-x / 3 * m_baseTurningSpeed * sensitivity);
-  camera.RotateTilt(-y / 3 * m_baseTurningSpeed * sensitivity);
+  player.m_camera.RotatePan(-x / 3 * m_baseTurningSpeed * sensitivity);
+  player.m_camera.RotateTilt(-y / 3 * m_baseTurningSpeed * sensitivity);
 
   // std::cout << x << " " << y << std::endl;
   // display.centerMouse();

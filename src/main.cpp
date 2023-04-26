@@ -3,6 +3,7 @@
 #include "mesh.hpp"
 
 #include "control.hpp"
+#include "player.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
 #include "transform.hpp"
@@ -22,15 +23,6 @@
 #define WIREFRAME_MODE false
 #define PI 3.14159265359
 
-void DrawOnScreen(Camera camera, Mesh &mesh, Shader &shader, Texture &texture,
-                  Transform &transform, float lightIntensity,
-                  glm::vec3 lightDirection, glm::vec4 color) {
-
-  shader.Bind();
-  texture.Bind(0);
-  //shader.Update(transform, camera, lightIntensity, lightDirection, color);
-  mesh.Draw(WIREFRAME_MODE);
-}
 
 int main(int, char **) {
 
@@ -46,27 +38,24 @@ int main(int, char **) {
   Texture texture_torch("./res/textures/torch.jpg");
   Texture texture_blank("./res/textures/grey.png");
   Texture texture_camouflage("./res/textures/camouflage.jpg");
+  Texture texture_container("./res/textures/container2.png");
+  Texture texture_container_specular("./res/textures/container2_specular.png");
 
   Transform transform_logo;
   transform_logo.SetScale(glm::vec3(2, 2.5, 2));
 
-  /*
-    Transform transform_cubes[10];
-    for (int i = 0; i < 10; i++) {
-      transform_cubes[i].SetScale(glm::vec3(0.5, 0.5, 0.5));
-      transform_cubes[i].SetPos(
-          glm::vec3(10 * cosf(2 * PI * i / 10), 10 * sinf(2 * PI * i / 10),
-    -3));
-    }
-  */
+
 
   Transform transform_cube;
-  transform_cube.SetScale(glm::vec3(2, 2, 2));
+  Transform transform_sphere;
+  //transform_cube.SetScale(glm::vec3(2, 2, 2));
+  // transform_cube.SetRot(glm::vec3(0, 0.5, 0));
+  transform_cube.SetPos(glm::vec3(2, 2, 0));
   Transform transform_light_source;
-  transform_light_source.SetPos(glm::vec3(-5.0f, 0.0f, 0.0f));
+  transform_light_source.SetPos(glm::vec3(5.0f, 0.0f, 0.0f));
   transform_light_source.SetScale(glm::vec3(0.1, 0.1, 0.1));
 
-  Camera camera(glm::vec3(0, 0, 7), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f,
+  Player player(glm::vec3(0, 0, 7), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f,
                 1000.0f);
   float counter = 0.0f;
 
@@ -80,26 +69,22 @@ int main(int, char **) {
   Mesh mesh_sphere("./res/objects/sphere.obj");
 
   glm::vec4 background_color = glm::vec4(0, 0.25f, 0.2f, 0.5f);
-  //glm::vec3 lightDirection = glm::vec3(0, 0, -1);
-  //glm::vec4 color = glm::vec4(1, 1, 1, 1);
-  //float lightIntensity = 1.0f;
+  glm::vec3 lightPos = glm::vec3(5, 0, 0);
+  // glm::vec4 color = glm::vec4(1, 1, 1, 1);
+  // float lightIntensity = 1.0f;
 
   while (!display.IsClosed()) {
 
-    control.Update(camera, display);
+    control.Update(player, display);
 
-    // lightDirection = glm::vec3(cosf(counter / 20), sinf(counter / 20), 0);
+    lightPos = glm::vec3(5.0 * cosf(counter / 20), 0, 5.0 * sinf(counter / 20));
     // color = glm::vec4(0, 1, abs(cosf(counter / 30)), 1);
 
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
-    
-    
-    //transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
-    
-    
-    
+    transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
+
     /*
         DrawOnScreen(camera, mesh_sphere, shader_color, texture_torch,
        transform_light_source, lightIntensity, lightDirection, color);
@@ -109,27 +94,21 @@ int main(int, char **) {
     shader_light_source.Bind();
     texture_blank.Bind(0);
     // texture_bricks.Bind(1);
-    shader_light_source.Update(transform_light_source, camera);
+    transform_light_source.SetPos(lightPos);
+    shader_light_source.Update(transform_light_source, player, lightPos);
     mesh_sphere.Draw(WIREFRAME_MODE);
 
     shader_complex.Bind();
     texture_blank.Bind(0);
-    // texture_bricks.Bind(1);
-    shader_complex.Update(transform_cube, camera);
+    //texture_container.Bind(0);
+    //texture_container_specular.Bind(0);
+    shader_complex.Update(transform_sphere, player, lightPos);
+    mesh_sphere.Draw(WIREFRAME_MODE);
+
+    shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
-    /*
-        transform_logo.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
 
-        for (int i = 0; i < 10; i++) {
-          transform_cubes[i].SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
-          DrawOnScreen(camera, mesh_cube, shader_color, texture_torch,
-       transform_cubes[i], lightIntensity, lightDirection, color);
-        }
-
-        DrawOnScreen(camera, mesh_logo, shader_tex, texture_torch,
-       transform_logo, lightIntensity, lightDirection, color);
-    */
 
     display.Update();
 
