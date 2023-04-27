@@ -9,7 +9,6 @@
 
 #include <SDL2/SDL_mouse.h>
 
-// TODO add mouse input
 
 Control::Control() {
 
@@ -42,19 +41,19 @@ void Control::Update(Player &player, Display &display) {
   }
   if (currentKeyStates[SDL_SCANCODE_W]) {
     player.m_camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(player.m_camera.GetForward()));
+                         glm::normalize(player.m_camera.GetForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_S]) {
     player.m_camera.Move(-1 * m_baseMovementSpeed * sensitivity *
-                glm::normalize(player.m_camera.GetForward()));
+                         glm::normalize(player.m_camera.GetForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_A]) {
     player.m_camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(player.m_camera.GetLeft()));
+                         glm::normalize(player.m_camera.GetLeft()));
   }
   if (currentKeyStates[SDL_SCANCODE_D]) {
     player.m_camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(player.m_camera.GetRight()));
+                         glm::normalize(player.m_camera.GetRight()));
   }
   if (currentKeyStates[SDL_SCANCODE_Q]) {
     player.m_camera.RotateRoll(-1 * m_baseTurningSpeed * sensitivity);
@@ -64,16 +63,18 @@ void Control::Update(Player &player, Display &display) {
   }
   if (currentKeyStates[SDL_SCANCODE_SPACE]) {
     player.m_camera.Move(m_baseMovementSpeed * sensitivity *
-                glm::normalize(player.m_camera.GetUp()));
+                         glm::normalize(player.m_camera.GetUp()));
   }
   if (currentKeyStates[SDL_SCANCODE_LSHIFT]) {
     player.m_camera.Move(-1 * m_baseMovementSpeed * sensitivity *
-                glm::normalize(player.m_camera.GetUp()));
+                         glm::normalize(player.m_camera.GetUp()));
   }
   if (currentKeyStates[SDL_SCANCODE_R]) {
-    player.toggleLight();
+    player.setLight();
   }
-
+  if (currentKeyStates[SDL_SCANCODE_T]) {
+    player.resetLight();
+  }
 
   int w = display.getWidth() / 2;
   int h = display.getHeight() / 2;
@@ -88,6 +89,20 @@ void Control::Update(Player &player, Display &display) {
     x = event.motion.xrel;
     y = event.motion.yrel;
   }
+
+  /*
+  if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r) {
+    toggleButton = true;
+    if (player.getSwitch()) {
+      player.setLight();
+    } else
+      player.resetLight();
+    std::cout << player.getSwitch() << std::endl;
+  }*/
+
+  //  if (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_r) {
+  //    toggleButton = false;
+  //  }
 
   player.m_camera.RotatePan(-x / 3 * m_baseTurningSpeed * sensitivity);
   player.m_camera.RotateTilt(-y / 3 * m_baseTurningSpeed * sensitivity);

@@ -9,23 +9,19 @@ static std::string LoadShader(const std::string &fileName);
 static GLuint CreateShader(const std::string &text, GLenum shaderType);
 
 void Shader::updateUniform(const std::string &uniformName, float value) {
-
   glUniform1f(glGetUniformLocation(m_program, uniformName.c_str()), value);
 }
 
 void Shader::updateUniform(const std::string &uniformName, int value) {
-
   glUniform1i(glGetUniformLocation(m_program, uniformName.c_str()), value);
 }
 
 void Shader::updateUniform(const std::string &uniformName, glm::vec3 value) {
-
   glUniform3f(glGetUniformLocation(m_program, uniformName.c_str()), value.x,
               value.y, value.z);
 }
 
 void Shader::updateUniform(const std::string &uniformName, glm::mat4 value) {
-
   glUniformMatrix4fv(glGetUniformLocation(m_program, uniformName.c_str()), 1,
                      GL_FALSE, &value[0][0]);
 }
@@ -75,28 +71,29 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
 
   updateUniform("material.shininess", 32.0f);
   updateUniform("dirLight.direction", glm::vec3(5, 0, 0));
-  updateUniform("dirLight.ambient", glm::vec3(0.2, 0, 0));
-  updateUniform("dirLight.diffuse", glm::vec3(0, 0, 0));
+  updateUniform("dirLight.ambient", glm::vec3(0.1, 0, 0));
+  updateUniform("dirLight.diffuse", glm::vec3(0.6, 0, 0));
   updateUniform("dirLight.specular", glm::vec3(0, 0, 0));
 
   updateUniform("pointLights[0].position", lightPos);
   updateUniform("pointLights[0].ambient", glm::vec3(0, 0, 0));
-  updateUniform("pointLights[0].diffuse", glm::vec3(0, 0, 1.0));
+  updateUniform("pointLights[0].diffuse", glm::vec3(0, 0, 0.0));
   updateUniform("pointLights[0].specular", glm::vec3(1, 1, 1));
   updateUniform("pointLights[0].constant", 1.0f);
   updateUniform("pointLights[0].linear", 0.09f);
   updateUniform("pointLights[0].quadratic", 0.032f);
 
-  updateUniform("spotLight.state", 1); // TODO debug mert még nem megy
+  updateUniform("spotLight.state", player.getSwitch());
   updateUniform("spotLight.direction", player.m_camera.GetForward());
-  updateUniform("spotLight.cutOff", 12.5f);
+  updateUniform("spotLight.cutOff", glm::cos(glm::radians(15.0f)));
+  updateUniform("spotLight.outerCutOff", glm::cos(glm::radians(30.0f)));
   updateUniform("spotLight.position", player.m_camera.GetPosition());
   updateUniform("spotLight.constant", 1.0f);
-  updateUniform("spotLight.linear", 0.09f);
-  updateUniform("spotLight.quadratic", 0.032f);
-  updateUniform("spotLight.ambient", glm::vec3(0, 0, 0));
-  updateUniform("spotLight.diffuse", glm::vec3(0, 1.0, 0));
-  updateUniform("spotLight.specular", glm::vec3(0, 0, 0));
+  updateUniform("spotLight.linear", 0.0f); //0.09f
+  updateUniform("spotLight.quadratic", 0.0f); //0.032f
+  updateUniform("spotLight.ambient", glm::vec3(0.1, 0.1, 0.1));
+  updateUniform("spotLight.diffuse", glm::vec3(0.8, 0.8, 0.8));
+  updateUniform("spotLight.specular", glm::vec3(1.0, 1.0, 1.0));
 
 }
 

@@ -21,5 +21,6 @@ private:
   int deltaTime;
   float m_baseTurningSpeed = 0.01f;
   float m_baseMovementSpeed = 0.1f;
+  //bool toggleButton = false;
   //glm::vec2 mousePosition;
 };

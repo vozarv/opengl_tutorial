@@ -6,7 +6,8 @@ class Player {
 
     public:
         Player(glm::vec3 pos, float fov, float aspect, float zNear, float zFar);
-        void toggleLight() { m_spotlight_switch = ~m_spotlight_switch; }
+        void setLight() { m_spotlight_switch = true; }
+        void resetLight() { m_spotlight_switch = false; }
         bool getSwitch() const { return m_spotlight_switch; }
   
         //TODO getter-setter

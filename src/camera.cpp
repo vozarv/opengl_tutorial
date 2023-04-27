@@ -17,12 +17,14 @@ void Camera::RotatePan(float angle) {
 
   glm::mat4 t = glm::rotate(glm::mat4(1), angle, m_up);
   m_forward = glm::vec3(t * glm::vec4(m_forward, 1.0));
+  //m_up = glm::vec3(0, 1, 0); 
 }
 
 void Camera::RotateTilt(float angle) {
   glm::mat4 t = glm::rotate(glm::mat4(1), angle, glm::cross(m_forward, m_up));
   m_forward = glm::vec3(t * glm::vec4(m_forward, 1.0));
-  m_up = glm::vec3(t * glm::vec4(m_up, 1.0));
+  //m_up = glm::vec3(t * glm::vec4(m_up, 1.0));
+  m_up = glm::vec3(0, 1, 0); 
 }
 
 void Camera::RotateRoll(float angle) {

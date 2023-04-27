@@ -23,7 +23,6 @@
 #define WIREFRAME_MODE false
 #define PI 3.14159265359
 
-
 int main(int, char **) {
 
   Display display(WIDTH, HEIGHT, "Hello PPE!");
@@ -44,13 +43,15 @@ int main(int, char **) {
   Transform transform_logo;
   transform_logo.SetScale(glm::vec3(2, 2.5, 2));
 
-
-
   Transform transform_cube;
   Transform transform_sphere;
-  //transform_cube.SetScale(glm::vec3(2, 2, 2));
-  // transform_cube.SetRot(glm::vec3(0, 0.5, 0));
+  Transform transform_big_cube;
+  transform_big_cube.SetScale(glm::vec3(10, 10, 10));
+  transform_big_cube.SetPos(glm::vec3(30, 0, 0));
+  // transform_cube.SetScale(glm::vec3(2, 2, 2));
+  //  transform_cube.SetRot(glm::vec3(0, 0.5, 0));
   transform_cube.SetPos(glm::vec3(2, 2, 0));
+
   Transform transform_light_source;
   transform_light_source.SetPos(glm::vec3(5.0f, 0.0f, 0.0f));
   transform_light_source.SetScale(glm::vec3(0.1, 0.1, 0.1));
@@ -69,7 +70,7 @@ int main(int, char **) {
   Mesh mesh_sphere("./res/objects/sphere.obj");
 
   glm::vec4 background_color = glm::vec4(0, 0.25f, 0.2f, 0.5f);
-  glm::vec3 lightPos = glm::vec3(5, 0, 0);
+  glm::vec3 lightPos = glm::vec3(3, 0, 0);
   // glm::vec4 color = glm::vec4(1, 1, 1, 1);
   // float lightIntensity = 1.0f;
 
@@ -77,19 +78,13 @@ int main(int, char **) {
 
     control.Update(player, display);
 
-    lightPos = glm::vec3(5.0 * cosf(counter / 20), 0, 5.0 * sinf(counter / 20));
+    lightPos = glm::vec3(3.0 * cosf(counter / 20), 0, 3.0 * sinf(counter / 20));
     // color = glm::vec4(0, 1, abs(cosf(counter / 30)), 1);
 
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
-    transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
-
-    /*
-        DrawOnScreen(camera, mesh_sphere, shader_color, texture_torch,
-       transform_light_source, lightIntensity, lightDirection, color);
-
-    */
+    //transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
 
     shader_light_source.Bind();
     texture_blank.Bind(0);
@@ -100,15 +95,16 @@ int main(int, char **) {
 
     shader_complex.Bind();
     texture_blank.Bind(0);
-    //texture_container.Bind(0);
-    //texture_container_specular.Bind(0);
+    // texture_container.Bind(0);
+    // texture_container_specular.Bind(0);
     shader_complex.Update(transform_sphere, player, lightPos);
     mesh_sphere.Draw(WIREFRAME_MODE);
 
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
-
+    shader_complex.Update(transform_big_cube, player, lightPos);
+    mesh_sphere.Draw(WIREFRAME_MODE);
 
     display.Update();
 
