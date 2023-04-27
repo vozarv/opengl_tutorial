@@ -8,7 +8,10 @@ Camera::Camera(const glm::vec3 &pos, float fov, float aspect, float zNear,
   m_up = glm::vec3(0, 1, 0);
 }
 
-void Camera::Move(const glm::vec3 delta_pos) { m_position += delta_pos; }
+void Camera::Move(const glm::vec3 delta_pos) { 
+  m_position += delta_pos;
+  m_up = glm::vec3(0, 1, 0); 
+  }
 
 void Camera::RotatePan(float angle) {
 
