@@ -81,8 +81,6 @@ void Control::Update(Player &player, Display &display) {
   int x = 0;
   int y = 0;
 
-  // SDL_GetMouseState(&x, &y);
-
   SDL_Event event;
   SDL_PollEvent(&event);
   if (event.type == SDL_MOUSEMOTION) {
@@ -106,7 +104,4 @@ void Control::Update(Player &player, Display &display) {
 
   player.m_camera.RotatePan(-x / 3 * m_baseTurningSpeed * sensitivity);
   player.m_camera.RotateTilt(-y / 3 * m_baseTurningSpeed * sensitivity);
-
-  // std::cout << x << " " << y << std::endl;
-  // display.centerMouse();
 }

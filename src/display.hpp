@@ -14,7 +14,6 @@ public:
   bool IsClosed();
   void Clear(float r, float g, float b, float a);
   void Close();
-  void centerMouse();
   int getWidth(){ return m_width; }
   int getHeight() { return m_height; }
 

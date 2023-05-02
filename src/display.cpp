@@ -35,6 +35,10 @@ Display::Display(int width, int height, const std::string &title) {
   // glEnable(GL_CULL_FACE);
   // glCullFace(GL_BACK);
 
+  // Blending
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+
   SDL_SetWindowResizable(m_window, SDL_TRUE);
 
   m_width = width;
@@ -66,12 +70,4 @@ bool Display::IsClosed() { return m_is_closed; }
 void Display::Clear(float r, float g, float b, float a) {
   glClearColor(r, g, b, a);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-
-//TODO: Not used
-void Display::centerMouse(){
-
-  SDL_WarpMouseInWindow( m_window, m_width / 2, m_height / 2);
-
 }

@@ -71,8 +71,8 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
 
   updateUniform("material.shininess", 32.0f);
   updateUniform("dirLight.direction", glm::vec3(5, 0, 0));
-  updateUniform("dirLight.ambient", glm::vec3(0.1, 0, 0));
-  updateUniform("dirLight.diffuse", glm::vec3(0.6, 0, 0));
+  updateUniform("dirLight.ambient", glm::vec3(0.1, 0.1, 0.1));
+  updateUniform("dirLight.diffuse", glm::vec3(0.6, 0.6, 0.6));
   updateUniform("dirLight.specular", glm::vec3(0, 0, 0));
 
   updateUniform("pointLights[0].position", lightPos);

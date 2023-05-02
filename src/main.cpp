@@ -7,7 +7,6 @@
 #include "shader.hpp"
 #include "texture.hpp"
 #include "transform.hpp"
-#include "vertex_list.hpp"
 #include <GL/glew.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
@@ -34,6 +33,9 @@ int main(int, char **) {
   Shader shader_complex("./res/shaders/complexShader");
 
   Texture texture_bricks("./res/textures/bricks.jpg");
+
+  Texture texture_grass("./res/textures/grass.png");
+  Texture texture_window("./res/textures/blending_transparent_window.png");
   Texture texture_torch("./res/textures/torch.jpg");
   Texture texture_blank("./res/textures/grey.png");
   Texture texture_camouflage("./res/textures/camouflage.jpg");
@@ -48,6 +50,7 @@ int main(int, char **) {
   Transform transform_big_cube;
   transform_big_cube.SetScale(glm::vec3(10, 10, 10));
   transform_big_cube.SetPos(glm::vec3(30, 0, 0));
+  transform_sphere.SetScale(glm::vec3(2, 2, 2));
   // transform_cube.SetScale(glm::vec3(2, 2, 2));
   //  transform_cube.SetRot(glm::vec3(0, 0.5, 0));
   transform_cube.SetPos(glm::vec3(2, 2, 0));
@@ -60,8 +63,7 @@ int main(int, char **) {
                 1000.0f);
   float counter = 0.0f;
 
-  // Mesh mesh_triangle(triangle, sizeof(triangle)/sizeof(triangle[0]),
-  // triangle_indices, sizeof(triangle_indices)/sizeof(triangle_indices[0]));
+  Mesh mesh_square("./res/objects/square.obj");
   Mesh mesh_triangle("./res/objects/triangle.obj");
   Mesh mesh_monkey("./res/objects/monkey3.obj");
   Mesh mesh_tetrahedron("./res/objects/tetrahedron.obj");
@@ -84,7 +86,7 @@ int main(int, char **) {
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
-    //transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
+    // transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
 
     shader_light_source.Bind();
     texture_blank.Bind(0);
@@ -94,15 +96,17 @@ int main(int, char **) {
     mesh_sphere.Draw(WIREFRAME_MODE);
 
     shader_complex.Bind();
-    texture_blank.Bind(0);
+    texture_grass.Bind(0);
     // texture_container.Bind(0);
     // texture_container_specular.Bind(0);
     shader_complex.Update(transform_sphere, player, lightPos);
-    mesh_sphere.Draw(WIREFRAME_MODE);
+    mesh_square.Draw(WIREFRAME_MODE);
 
+    texture_window.Bind(0);
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
+    texture_blank.Bind(0);
     shader_complex.Update(transform_big_cube, player, lightPos);
     mesh_sphere.Draw(WIREFRAME_MODE);
 
