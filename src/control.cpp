@@ -41,11 +41,11 @@ void Control::Update(Player &player, Display &display) {
   }
   if (currentKeyStates[SDL_SCANCODE_W]) {
     player.m_camera.Move(m_baseMovementSpeed * sensitivity *
-                         glm::normalize(player.m_camera.GetForward()));
+                         glm::normalize(player.m_camera.GetHorizontalForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_S]) {
     player.m_camera.Move(-1 * m_baseMovementSpeed * sensitivity *
-                         glm::normalize(player.m_camera.GetForward()));
+                         glm::normalize(player.m_camera.GetHorizontalForward()));
   }
   if (currentKeyStates[SDL_SCANCODE_A]) {
     player.m_camera.Move(m_baseMovementSpeed * sensitivity *

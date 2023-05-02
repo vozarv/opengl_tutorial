@@ -15,6 +15,7 @@ public:
   }
   inline glm::vec3 GetPosition() const { return m_position; }
   inline glm::vec3 GetForward() const { return m_forward; }
+  inline glm::vec3 GetHorizontalForward() const { return glm::vec3(m_forward.x, 0, m_forward.z); }
   inline glm::vec3 GetUp() const { return m_up; }
   inline glm::vec3 GetLeft() const { return glm::cross(m_up, m_forward); }
   inline glm::vec3 GetRight() const { return glm::cross(m_forward, m_up); }
