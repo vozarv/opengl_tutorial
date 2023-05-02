@@ -31,7 +31,7 @@ Display::Display(int width, int height, const std::string &title) {
 
   glEnable(GL_DEPTH_TEST);
 
-  // Csak konvex modelleknél
+  // Only when using convex models
   // glEnable(GL_CULL_FACE);
   // glCullFace(GL_BACK);
 

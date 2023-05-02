@@ -16,7 +16,7 @@ struct DirLight {
   vec3 specular;
 };
 
-vec3 CalcDirLight(DirLight light, Material material, vec3 normal, vec3 viewDir,
+vec4 CalcDirLight(DirLight light, Material material, vec3 normal, vec3 viewDir,
                   vec2 texCoord) {
   vec3 lightDir = normalize(-light.direction);
   // diffuse shading
@@ -25,11 +25,11 @@ vec3 CalcDirLight(DirLight light, Material material, vec3 normal, vec3 viewDir,
   vec3 reflectDir = reflect(-lightDir, normal);
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
   // combine results
-  vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoord));
-  vec3 diffuse =
-      light.diffuse * diff * vec3(texture(material.diffuse, texCoord));
-  vec3 specular =
-      light.specular * spec * vec3(texture(material.specular, texCoord));
+  vec4 ambient = vec4(light.ambient, 1.0) * texture(material.diffuse, texCoord);
+  vec4 diffuse =
+      vec4(light.diffuse, 1.0) * diff * texture(material.diffuse, texCoord);
+  vec4 specular =
+      vec4(light.specular, 1.0) * spec * texture(material.specular, texCoord);
   return (ambient + diffuse + specular);
 }
 
@@ -45,7 +45,7 @@ struct PointLight {
   vec3 specular;
 };
 
-vec3 CalcPointLight(PointLight light, Material material, vec3 normal,
+vec4 CalcPointLight(PointLight light, Material material, vec3 normal,
                     vec3 fragPos, vec3 viewDir, vec2 texCoord) {
   vec3 lightDir = normalize(light.position - fragPos);
   // diffuse shading
@@ -58,11 +58,11 @@ vec3 CalcPointLight(PointLight light, Material material, vec3 normal,
   float attenuation = 1.0 / (light.constant + light.linear * distance +
                              light.quadratic * (distance * distance));
   // combine results
-  vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoord));
-  vec3 diffuse =
-      light.diffuse * diff * vec3(texture(material.diffuse, texCoord));
-  vec3 specular =
-      light.specular * spec * vec3(texture(material.specular, texCoord));
+  vec4 ambient = vec4(light.ambient, 1.0) * texture(material.diffuse, texCoord);
+  vec4 diffuse =
+      vec4(light.diffuse, 1.0) * diff * texture(material.diffuse, texCoord);
+  vec4 specular =
+      vec4(light.specular, 1.0) * spec * texture(material.specular, texCoord);
   ambient *= attenuation;
   diffuse *= attenuation;
   specular *= attenuation;
@@ -85,21 +85,21 @@ struct SpotLight {
   vec3 specular;
 };
 
-vec3 CalcSpotLight(SpotLight light, Material material, vec3 normal,
+vec4 CalcSpotLight(SpotLight light, Material material, vec3 normal,
                    vec3 fragPos, vec3 viewDir, vec2 texCoord) {
 
-  vec3 ambient = light.ambient * texture(material.diffuse, texCoord).rgb;
+  vec4 ambient = vec4(light.ambient, 1.0) * texture(material.diffuse, texCoord);
 
   // diffuse
   vec3 lightDir = normalize(light.position - fragPos);
   float diff = max(dot(normal, lightDir), 0.0);
-  vec3 diffuse = light.diffuse * diff * texture(material.diffuse, texCoord).rgb;
+  vec4 diffuse = vec4(light.diffuse, 1.0) * diff * texture(material.diffuse, texCoord);
 
   // specular
   vec3 reflectDir = reflect(-lightDir, normal);
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-  vec3 specular =
-      light.specular * spec * texture(material.specular, texCoord).rgb;
+  vec4 specular =
+      vec4(light.specular, 1.0) * spec * texture(material.specular, texCoord);
 
   // spotlight (soft edges)
   float theta = dot(lightDir, normalize(-light.direction));
@@ -143,7 +143,7 @@ void main() {
   vec3 viewDir = normalize(viewPos - FragPos);
 
   // phase 1: Directional lighting
-  vec3 result = CalcDirLight(dirLight, material, norm, viewDir, TexCoord);
+  vec4 result = CalcDirLight(dirLight, material, norm, viewDir, TexCoord);
 
   // phase 2: Point lights
   for (int i = 0; i < NR_POINT_LIGHTS; i++)
@@ -155,9 +155,12 @@ void main() {
       CalcSpotLight(spotLight, material, norm, FragPos, viewDir, TexCoord);
 
   vec4 texColor = texture(material.diffuse, TexCoord);
-  if(texColor.a < 0.1){
-    discard;
-  }
+  //if(texColor.a < 0.1){
+  //  discard;
+  //}
 
-  FragColor = vec4(result, 1.0);
+  FragColor = result;
+
+  //FragColor = texColor;
+
 }
