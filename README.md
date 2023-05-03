@@ -30,3 +30,6 @@ Light handling object
 Install clang in Visual Studio Installer
 Install vcpkg (optionally: add it to PATH)
 Run the following command: vcpkg install opengl glfw3 sdl2 glm glew --triplet=x64-windows
+=======
+Blending objects should be drawn based on distance from the camera
+
