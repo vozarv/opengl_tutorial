@@ -30,3 +30,13 @@ Light handling object
 Install clang in Visual Studio Installer
 Install vcpkg (optionally: add it to PATH)
 Run the following command: vcpkg install opengl glfw3 sdl2 glm glew --triplet=x64-windows
+
+Add the vcpkg toolchain file path to your project:
+
+./.vscode/settings.json
+{
+  "cmake.configureSettings": {
+    "VCPKG_TARGET_TRIPLET": "x64-windows",
+    "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  }
+}

@@ -15,14 +15,15 @@
 #include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
 #include <glm/gtx/transform.hpp>
-
+#include <chrono>
+#include <thread>
 
 #define WIDTH 800  // TODO getter in display
 #define HEIGHT 600 // TODO getter in display
 #define WIREFRAME_MODE false
 #define PI 3.14159265359
 
-int SDL_main(int, char **) {
+int main(int, char **) {
 
   Display display(WIDTH, HEIGHT, "Hello PPE!");
   Control control;
@@ -111,6 +112,7 @@ int SDL_main(int, char **) {
     display.Update();
 
     counter += 0.1f;
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
   return 0;

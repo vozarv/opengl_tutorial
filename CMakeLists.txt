@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 3.9.0)
 
-
-set(VCPKG_TARGET_TRIPLET x64-windows)
-set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-
-
 project(OpenGL_tutorial VERSION 0.1.0 LANGUAGES C CXX)
 
 include(CTest)
@@ -35,18 +30,12 @@ find_package(SDL2 REQUIRED)
 find_package(glm REQUIRED) 
 find_package(glfw3 3.3 REQUIRED)
 
-
-#file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
-#DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW SDL2::SDL2 glm::glm glfw SDL2::SDL2main) 
-
 
 add_custom_command(
   TARGET OpenGL_tutorial
   PRE_BUILD
   COMMAND ${CMAKE_COMMAND}
-  ARGS -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/res/ ${CMAKE_CURRENT_BINARY_DIR}/res/
+  ARGS -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/res/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/res/
   )
 
