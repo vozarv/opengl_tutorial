@@ -23,3 +23,10 @@ Windows compatibility (GLEW, GLFW3, SDL2, GLM)
 WASD should move horizontally - Solved: GetHorizontalForward() function
 Scene object 
 Light handling object
+
+
+# Windows
+
+Install clang in Visual Studio Installer
+Install vcpkg (optionally: add it to PATH)
+Run the following command: vcpkg install opengl glfw3 sdl2 glm glew --triplet=x64-windows

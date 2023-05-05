@@ -27,8 +27,6 @@ int SDL_main(int, char **) {
   Display display(WIDTH, HEIGHT, "Hello PPE!");
   Control control;
 
-  Shader shader_tex("./res/shaders/textureShader");
-  Shader shader_color("./res/shaders/colorShader");
   Shader shader_light_source("./res/shaders/lightSourceShader");
   Shader shader_complex("./res/shaders/complexShader");
 

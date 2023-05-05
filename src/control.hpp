@@ -5,7 +5,6 @@
 #include "player.hpp"
 #include "display.hpp"
 #include <SDL2/SDL_events.h>
-#include <bits/types/time_t.h>
 #include <chrono>
 
 class Control {
