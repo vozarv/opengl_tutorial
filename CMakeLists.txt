@@ -1,4 +1,10 @@
 cmake_minimum_required(VERSION 3.9.0)
+
+
+set(VCPKG_TARGET_TRIPLET x64-windows)
+set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+
+
 project(OpenGL_tutorial VERSION 0.1.0 LANGUAGES C CXX)
 
 include(CTest)
@@ -30,4 +36,4 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
 DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
-target_link_libraries(${PROJECT_NAME} GLEW::GLEW SDL2 glm::glm OpenGL glfw) 
+target_link_libraries(${PROJECT_NAME} GLEW::GLEW SDL2::SDL2 glm::glm glfw SDL2::SDL2main) 

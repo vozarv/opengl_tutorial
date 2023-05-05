@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include "display.hpp"
 #include <glm/fwd.hpp>
-#include <unistd.h>
 #include "shader.hpp"
 #include "mesh.hpp"
 #include "texture.hpp"
@@ -12,7 +11,7 @@
 #define HEIGHT 600 //TODO getter in display
  
 
-int main(int, char**) {
+int SDL_main(int, char**) {
 
     Display display(WIDTH, HEIGHT, "Hello Monkey!");
 
@@ -69,7 +68,8 @@ int main(int, char**) {
 
 
         counter += 0.1f;
-        usleep(10000);
     }
+
+   return 0;
 
 }
