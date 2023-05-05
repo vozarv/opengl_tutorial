@@ -1,37 +1,31 @@
 #pragma once
 
-#include <string>
 #include "GL/glew.h"
-#include "transform.hpp"
 #include "camera.hpp"
+#include "transform.hpp"
+#include "player.hpp"
+#include <string>
 
-class Shader
-{
+class Shader {
 
-    public:
+public:
+  Shader(const std::string &fileName);
 
-        Shader(const std::string& fileName);
+  void Bind();
+  void Update(const Transform &transform, const Player &player, glm::vec3 lightPos); //TODO player, lights class
 
-        void Bind();
-        void Update(const Transform& transform, const Camera& camera, const float& lightIntensity);
+  virtual ~Shader();
 
-        virtual ~ Shader();
-    
-    protected:
-    private:
+protected:
+private:
 
-        enum
-        {
-            TRANSFORM_U,
-            LIGHT_INTENSITY_U,
-            
-            NUM_UNIFORMS
-        };
+  void updateUniform(const std::string& uniformName, float value);
+  void updateUniform(const std::string& uniformName, int value);
+  void updateUniform(const std::string& uniformName, glm::vec3 value);
+  void updateUniform(const std::string& uniformName, glm::mat4 value);
 
-        static const unsigned int NUM_SHADERS = 2;
+  static const unsigned int NUM_SHADERS = 2;
 
-        GLuint m_program;
-        GLuint m_shaders[NUM_SHADERS];
-        GLuint m_uniforms[NUM_UNIFORMS];
-
+  GLuint m_program;
+  GLuint m_shaders[NUM_SHADERS];
 };

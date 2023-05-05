@@ -17,7 +17,11 @@ add_executable(OpenGL_tutorial
     src/mesh.cpp
     src/stb_image.c
     src/texture.cpp
-    src/obj_loader.cpp)
+    src/obj_loader.cpp
+    src/control.cpp
+    src/camera.cpp
+    src/player.cpp
+    )
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
@@ -32,8 +36,17 @@ find_package(glm REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
 
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
-DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
+#DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW SDL2::SDL2 glm::glm glfw SDL2::SDL2main) 
+
+
+add_custom_command(
+  TARGET OpenGL_tutorial
+  PRE_BUILD
+  COMMAND ${CMAKE_COMMAND}
+  ARGS -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/res/ ${CMAKE_CURRENT_BINARY_DIR}/res/
+  )
+

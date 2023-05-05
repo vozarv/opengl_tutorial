@@ -1,27 +1,28 @@
 #pragma once
 
-#include "string"
 #include "stdio.h"
+#include "string"
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include <iostream>
-#include <SDL2/SDL.h>
 
-class Display
-{
-    public:
+class Display {
+public:
+  Display(int width, int height, const std::string &title);
 
-        Display(int width, int height, const std::string& title);
+  void Update();
+  bool IsClosed();
+  void Clear(float r, float g, float b, float a);
+  void Close();
+  int getWidth(){ return m_width; }
+  int getHeight() { return m_height; }
 
-        void Update();
-        bool IsClosed();
-        void Clear(float r, float g, float b, float a);
+  virtual ~Display();
 
-        virtual ~Display();
-
-    protected:
-    private:
-
-    SDL_Window* m_window;
-    SDL_GLContext m_glContext;
-    bool m_is_closed;
+protected:
+private:
+  SDL_Window *m_window;
+  SDL_GLContext m_glContext;
+  bool m_is_closed;
+  int m_width, m_height;
 };
