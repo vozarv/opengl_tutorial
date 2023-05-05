@@ -23,7 +23,7 @@ Windows compatibility (GLEW, GLFW3, SDL2, GLM)
 WASD should move horizontally - Solved: GetHorizontalForward() function
 Scene object 
 Light handling object
-
+Blending objects should be drawn based on distance from the camera
 
 # Windows
 
@@ -40,3 +40,4 @@ Add the vcpkg toolchain file path to your project:
     "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
   }
 }
+

@@ -155,9 +155,9 @@ void main() {
       CalcSpotLight(spotLight, material, norm, FragPos, viewDir, TexCoord);
 
   vec4 texColor = texture(material.diffuse, TexCoord);
-  //if(texColor.a < 0.1){
-  //  discard;
-  //}
+  if(texColor.a < 0.1){
+   discard;
+  }
 
   FragColor = result;
 
