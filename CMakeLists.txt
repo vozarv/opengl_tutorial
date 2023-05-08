@@ -30,6 +30,10 @@ find_package(SDL2 REQUIRED)
 find_package(glm REQUIRED) 
 find_package(glfw3 3.3 REQUIRED)
 
+if(UNIX AND NOT APPLE)
+    target_link_libraries(${PROJECT_NAME} OpenGL)
+endif()
+
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW SDL2::SDL2 glm::glm glfw SDL2::SDL2main) 
 
 add_custom_command(
