@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include "mesh.hpp"
 
 
 
@@ -16,10 +17,10 @@ class Background {
 
 public:
   Background();
-  void Draw(Shader shader, Player player);
+  void Draw(Shader& shader, Player& player);
 
 protected:
 private:
   unsigned int textureID;
-  unsigned int skyboxVAO, skyboxVBO;
+  //unsigned int skyboxVAO, skyboxVBO;
 };

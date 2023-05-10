@@ -86,14 +86,8 @@ int main(int, char **) {
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
-
-
     // Draw Background
-    glDepthMask(GL_FALSE);
-    shader_background.Bind();
-    shader_background.Update(player);
-    mesh_cube.Draw(WIREFRAME_MODE);
-    glDepthMask(GL_TRUE);
+    background.Draw(shader_background, player);
 
 
 
