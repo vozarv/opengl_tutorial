@@ -2,6 +2,7 @@
 #include "display.hpp"
 #include "mesh.hpp"
 
+#include "background.hpp"
 #include "control.hpp"
 #include "player.hpp"
 #include "shader.hpp"
@@ -11,11 +12,11 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_video.h>
+#include <chrono>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
 #include <glm/gtx/transform.hpp>
-#include <chrono>
 #include <thread>
 
 #define WIDTH 800  // TODO getter in display
@@ -27,9 +28,11 @@ int main(int, char **) {
 
   Display display(WIDTH, HEIGHT, "Hello PPE!");
   Control control;
+  Background background;
 
   Shader shader_light_source("./res/shaders/lightSourceShader");
   Shader shader_complex("./res/shaders/complexShader");
+  Shader shader_background("./res/shaders/backgroundShader");
 
   Texture texture_bricks("./res/textures/bricks.jpg");
 
@@ -52,7 +55,7 @@ int main(int, char **) {
   transform_sphere.SetScale(glm::vec3(2, 2, 2));
   // transform_cube.SetScale(glm::vec3(2, 2, 2));
   //  transform_cube.SetRot(glm::vec3(0, 0.5, 0));
-  transform_cube.SetPos(glm::vec3(2, 2, 0));
+  transform_cube.SetPos(glm::vec3(3, -2, 0));
 
   Transform transform_light_source;
   transform_light_source.SetPos(glm::vec3(5.0f, 0.0f, 0.0f));
@@ -77,37 +80,54 @@ int main(int, char **) {
 
   while (!display.IsClosed()) {
 
+    //
     control.Update(player, display);
-
     lightPos = glm::vec3(3.0 * cosf(counter / 20), 0, 3.0 * sinf(counter / 20));
-    // color = glm::vec4(0, 1, abs(cosf(counter / 30)), 1);
-
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
-    // transform_cube.SetRot(glm::vec3(counter / 20 + PI, 0, PI / 2));
 
+
+    // Draw Background
+    glDepthMask(GL_FALSE);
+    shader_background.Bind();
+    shader_background.Update(player);
+    mesh_cube.Draw(WIREFRAME_MODE);
+    glDepthMask(GL_TRUE);
+
+
+
+    // Draw light source
     shader_light_source.Bind();
     texture_blank.Bind(0);
-    // texture_bricks.Bind(1);
     transform_light_source.SetPos(lightPos);
     shader_light_source.Update(transform_light_source, player, lightPos);
     mesh_sphere.Draw(WIREFRAME_MODE);
 
+
+    // Draw center object
     shader_complex.Bind();
-    texture_grass.Bind(0);
-    // texture_container.Bind(0);
+    texture_bricks.Bind(0);
+    //texture_container.Bind(0);
     // texture_container_specular.Bind(0);
     shader_complex.Update(transform_sphere, player, lightPos);
-    mesh_square.Draw(WIREFRAME_MODE);
+    mesh_sphere.Draw(WIREFRAME_MODE);
 
+
+    // Draw blending object
     texture_window.Bind(0);
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
-    texture_blank.Bind(0);
+
+    // Draw big object
+    //shader_background.Bind();
+    //texture_blank.Bind(0);
+    texture_container.Bind(0);
     shader_complex.Update(transform_big_cube, player, lightPos);
-    mesh_sphere.Draw(WIREFRAME_MODE);
+    mesh_cube.Draw(WIREFRAME_MODE);
+
+    // background.Draw(shader_background, player);
 
     display.Update();
 

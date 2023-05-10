@@ -13,6 +13,14 @@ public:
     return m_perspective *
            glm::lookAt(m_position, m_position + m_forward, m_up);
   }
+
+  // GetViewProjection without the translation
+  inline glm::mat4 GetDirectionProjection() const {
+    return m_perspective *
+           glm::lookAt(glm::vec3(0,0,0), m_forward, m_up);
+  }
+
+
   inline glm::vec3 GetPosition() const { return m_position; }
   inline glm::vec3 GetForward() const { return m_forward; }
   inline glm::vec3 GetHorizontalForward() const { return glm::vec3(m_forward.x, 0, m_forward.z); }

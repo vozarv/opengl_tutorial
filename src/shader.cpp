@@ -97,6 +97,16 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
 
 }
 
+void Shader::Update(const Player &player) {
+
+  glm::mat4 model = glm::mat4(1.0);
+  glm::mat4 view = player.m_camera.GetDirectionProjection();
+
+  updateUniform("model", model);
+  updateUniform("view", view);
+  updateUniform("viewPos", player.m_camera.GetPosition());
+}
+
 static GLuint CreateShader(const std::string &text, GLenum shaderType) {
   GLuint shader = glCreateShader(shaderType);
 

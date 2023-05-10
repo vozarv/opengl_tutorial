@@ -16,6 +16,7 @@ add_executable(OpenGL_tutorial
     src/control.cpp
     src/camera.cpp
     src/player.cpp
+    src/background.cpp
     )
 
 
