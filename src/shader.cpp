@@ -87,15 +87,17 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
 
   updateUniform("spotLight.state", player.getSwitch());
   updateUniform("spotLight.direction", player.m_camera.GetForward());
-  updateUniform("spotLight.cutOff", glm::cos(glm::radians(15.0f)));
-  updateUniform("spotLight.outerCutOff", glm::cos(glm::radians(30.0f)));
+  updateUniform("spotLight.cutOff", glm::cos(glm::radians(5.0f)));
+  updateUniform("spotLight.outerCutOff", glm::cos(glm::radians(10.0f)));
   updateUniform("spotLight.position", player.m_camera.GetPosition());
   updateUniform("spotLight.constant", 1.0f);
   updateUniform("spotLight.linear", 0.09f); //0.09f
   updateUniform("spotLight.quadratic", 0.032f); //0.032f
   updateUniform("spotLight.ambient", glm::vec3(0.0, 0.0, 0.0));
-  updateUniform("spotLight.diffuse", glm::vec3(0.0, 0.0, 0.0));
+  updateUniform("spotLight.diffuse", glm::vec3(1.0, 1.0, 1.0));
   updateUniform("spotLight.specular", glm::vec3(1.0, 1.0, 1.0));
+
+  updateUniform("skybox", (int)2);
 
 }
 

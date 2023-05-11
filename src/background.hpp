@@ -19,8 +19,10 @@ public:
   Background(const std::string path);
   void Draw(Shader& shader, Player& player);
 
+  unsigned int textureID;
+
 protected:
 private:
-  unsigned int textureID;
+  
   //unsigned int skyboxVAO, skyboxVBO;
 };

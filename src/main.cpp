@@ -27,9 +27,9 @@
 int main(int, char **)
 {
 
-  Display display(WIDTH, HEIGHT, "Hello PPE!");
+  Display display(WIDTH, HEIGHT, "Awesome World");
   Control control;
-  Background background("./res/textures/skybox/");
+  Background background("./res/textures/city/");
 
   Shader shader_light_source("./res/shaders/lightSourceShader");
   Shader shader_complex("./res/shaders/complexShader");
@@ -39,7 +39,7 @@ int main(int, char **)
   // Texture texture_grass("./res/textures/grass.png");
   // Texture texture_window("./res/textures/blending_transparent_window.png");
   Texture texture_torch("./res/textures/torch.jpg");
-  // Texture texture_blank("./res/textures/grey.png");
+  Texture texture_blank("./res/textures/grey.png");
   // Texture texture_camouflage("./res/textures/camouflage.jpg");
   Texture texture_container("./res/textures/container2.png");
   Texture texture_container_specular("./res/textures/container2_specular.png");
@@ -88,7 +88,11 @@ int main(int, char **)
                   background_color.a);
 
     // Draw Background
-    // background.Draw(shader_background, player);
+    background.Draw(shader_background, player);
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, background.textureID); //TODO private variable
+
 
     // Draw light source
     shader_light_source.Bind();
@@ -98,9 +102,9 @@ int main(int, char **)
     mesh_sphere.Draw(WIREFRAME_MODE);
 
 
-    texture_container.Bind(0);
-    texture_container_specular.Bind(1);
-
+    //texture_container.Bind(0);
+    //texture_container_specular.Bind(1);
+    texture_blank.Bind(0);
 
     // Draw center object
     shader_complex.Bind();
@@ -108,7 +112,7 @@ int main(int, char **)
     // texture_container.Bind(0);
     // texture_container_specular.BindSpecular(0);
     shader_complex.Update(transform_sphere, player, lightPos);
-    mesh_cube.Draw(WIREFRAME_MODE);
+    mesh_monkey.Draw(WIREFRAME_MODE);
 
     // Draw blending object
     // texture_window.Bind(0);

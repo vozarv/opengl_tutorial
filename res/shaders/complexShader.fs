@@ -93,7 +93,8 @@ vec4 CalcSpotLight(SpotLight light, Material material, vec3 normal,
   // diffuse
   vec3 lightDir = normalize(light.position - fragPos);
   float diff = max(dot(normal, lightDir), 0.0);
-  vec4 diffuse = vec4(light.diffuse, 1.0) * diff * texture(material.diffuse, texCoord);
+  vec4 diffuse =
+      vec4(light.diffuse, 1.0) * diff * texture(material.diffuse, texCoord);
 
   // specular
   vec3 reflectDir = reflect(-lightDir, normal);
@@ -125,7 +126,7 @@ vec4 CalcSpotLight(SpotLight light, Material material, vec3 normal,
 out vec4 FragColor;
 
 in vec2 TexCoord;
-in vec3 CubeCoord;
+// in vec3 CubeCoord;
 in vec3 Normal;
 in vec3 FragPos;
 
@@ -149,7 +150,18 @@ void main() {
   vec3 refractDir = refract(-viewDir, norm, 1.33);
 
   // background reflection
-  //vec4 reflection = texture(skybox, CubeCoord);
+  vec4 reflection = texture(skybox, reflectDir);
+  vec4 refraction = texture(skybox, refractDir);
+
+  vec4 glassColor;
+
+  //TODO Something is still off yet
+  if(refraction.x < 0.05 && refraction.y < 0.05 && refraction.z < 0.05){
+    glassColor = reflection;
+  }
+  else {
+    glassColor = refraction;
+  }
 
 
   // phase 1: Directional lighting
@@ -165,16 +177,18 @@ void main() {
       CalcSpotLight(spotLight, material, norm, FragPos, viewDir, TexCoord);
 
   vec4 texColor = texture(material.diffuse, TexCoord);
-  if(texColor.a < 0.1){
-   discard;
+  if (texColor.a < 0.1) {
+    discard;
   }
 
-  //FragColor = vec4(reflectDir, 1.0);
-  FragColor = result;
-  //FragColor = texture(material.specular, TexCoord);
-  //FragColor = mix(texture(material.diffuse, TexCoord), texture(material.specular, TexCoord), 0.6);
-  //FragColor = reflection;
-  //FragColor = texture(skybox, CubeCoord);
-  //FragColor = texColor;
-
+  // FragColor = vec4(reflectDir, 1.0);
+  // FragColor = result;
+  // FragColor = texture(material.specular, TexCoord);
+  // FragColor = mix(texture(material.diffuse, TexCoord),
+  // texture(material.specular, TexCoord), 0.6);
+  //FragColor = glassColor;
+  //FragColor = 0.8 * glassColor + 0.2 * result;
+  FragColor = reflection;
+  // FragColor = texture(skybox, FragPos);
+  // FragColor = texColor;
 }
