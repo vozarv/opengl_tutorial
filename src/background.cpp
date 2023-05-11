@@ -1,26 +1,29 @@
 #include "background.hpp"
 
 std::vector<std::string> faces = {
-    "./res/textures/skybox/right.jpg", "./res/textures/skybox/left.jpg",
-    "./res/textures/skybox/top.jpg",   "./res/textures/skybox/bottom.jpg",
-    "./res/textures/skybox/front.jpg", "./res/textures/skybox/back.jpg"};
+    "right.jpg", "left.jpg",
+    "top.jpg", "bottom.jpg",
+    "front.jpg", "back.jpg"};
 
-//TODO source folder as input
-Background::Background() {
-
+Background::Background(const std::string path)
+{
 
   glGenTextures(1, &textureID);
   glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
   int width, height, nrChannels;
-  for (unsigned int i = 0; i < faces.size(); i++) {
+  for (unsigned int i = 0; i < faces.size(); i++)
+  {
     unsigned char *data =
-        stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-    if (data) {
+        stbi_load((path + faces[i]).c_str(), &width, &height, &nrChannels, 0);
+    if (data)
+    {
       glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height,
                    0, GL_RGB, GL_UNSIGNED_BYTE, data);
       stbi_image_free(data);
-    } else {
+    }
+    else
+    {
       std::cout << "Cubemap tex failed to load at path: " << faces[i]
                 << std::endl;
       stbi_image_free(data);
@@ -31,15 +34,15 @@ Background::Background() {
   glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
 }
 
-void Background::Draw(Shader& shader, Player& player) {
+void Background::Draw(Shader &shader, Player &player)
+{
 
-    Mesh mesh("./res/objects/cube.obj");
-    glDepthMask(GL_FALSE);
-    shader.Bind();
-    shader.Update(player);
-    mesh.Draw(0);
-    glDepthMask(GL_TRUE);
+  Mesh mesh("./res/objects/cube.obj");
+  glDepthMask(GL_FALSE);
+  shader.Bind();
+  shader.Update(player);
+  mesh.Draw(0);
+  glDepthMask(GL_TRUE);
 }

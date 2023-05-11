@@ -16,7 +16,7 @@
 class Background {
 
 public:
-  Background();
+  Background(const std::string path);
   void Draw(Shader& shader, Player& player);
 
 protected:

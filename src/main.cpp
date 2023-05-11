@@ -28,7 +28,7 @@ int main(int, char **) {
 
   Display display(WIDTH, HEIGHT, "Hello PPE!");
   Control control;
-  Background background;
+  Background background("./res/textures/skybox/");
 
   Shader shader_light_source("./res/shaders/lightSourceShader");
   Shader shader_complex("./res/shaders/complexShader");
@@ -122,7 +122,7 @@ int main(int, char **) {
 
     // background.Draw(shader_background, player);
 
-    std::cout << player.m_camera.GetPosition().x << " " << player.m_camera.GetPosition().y << " " << player.m_camera.GetPosition().z << std::endl;
+    //std::cout << player.m_camera.GetPosition().x << " " << player.m_camera.GetPosition().y << " " << player.m_camera.GetPosition().z << std::endl;
 
     display.Update();
 
