@@ -13,10 +13,14 @@ sudo apt-get install libglfw3-dev
 ## Assimp
 https://github.com/assimp/assimp/blob/master/Build.md
 
+## Download objects
+https://sketchfab.com/3d-models/
+User: a@gmail.com
+Password: 12345678
 
 ## TODO
 
-Spotlight still doesn't work properly
+Spotlight still doesn't work properly - Solved: the FragPos variable in the vertex shader was incorrectly multiplied with the view matrix
 Material specular texture map cannot load
 The loaded texture is shifted on objects - Solved: The Cube texture coords were in wrong order
 Windows compatibility (GLEW, GLFW3, SDL2, GLM)
@@ -24,6 +28,7 @@ WASD should move horizontally - Solved: GetHorizontalForward() function
 Scene object 
 Light handling object
 Blending objects should be drawn based on distance from the camera
+Mirror effect
 
 # Windows
 

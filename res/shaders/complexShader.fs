@@ -125,6 +125,7 @@ vec4 CalcSpotLight(SpotLight light, Material material, vec3 normal,
 out vec4 FragColor;
 
 in vec2 TexCoord;
+in vec3 CubeCoord;
 in vec3 Normal;
 in vec3 FragPos;
 
@@ -136,11 +137,20 @@ uniform SpotLight spotLight;
 
 uniform Material material;
 
+uniform samplerCube skybox;
+
 void main() {
 
   // properties
   vec3 norm = normalize(Normal);
   vec3 viewDir = normalize(viewPos - FragPos);
+
+  vec3 reflectDir = reflect(-viewDir, norm);
+  vec3 refractDir = refract(-viewDir, norm, 1.33);
+
+  // background reflection
+  //vec4 reflection = texture(skybox, CubeCoord);
+
 
   // phase 1: Directional lighting
   vec4 result = CalcDirLight(dirLight, material, norm, viewDir, TexCoord);
@@ -159,8 +169,10 @@ void main() {
    discard;
   }
 
+  //FragColor = vec4(reflectDir, 1.0);
   FragColor = result;
-
+  //FragColor = reflection;
+  //FragColor = texture(skybox, CubeCoord);
   //FragColor = texColor;
 
 }

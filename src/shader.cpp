@@ -70,15 +70,15 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
   updateUniform("viewPos", player.m_camera.GetPosition());
 
   updateUniform("material.shininess", 32.0f);
-  updateUniform("dirLight.direction", glm::vec3(5, 0, 0));
-  updateUniform("dirLight.ambient", glm::vec3(0.1, 0.1, 0.1));
-  updateUniform("dirLight.diffuse", glm::vec3(0.6, 0.6, 0.6));
+  updateUniform("dirLight.direction", glm::vec3(0, -10, 0));
+  updateUniform("dirLight.ambient", glm::vec3(0.1, 0.0, 0.0));
+  updateUniform("dirLight.diffuse", glm::vec3(0.6, 0.0, 0.0));
   updateUniform("dirLight.specular", glm::vec3(0, 0, 0));
 
   updateUniform("pointLights[0].position", lightPos);
   updateUniform("pointLights[0].ambient", glm::vec3(0, 0, 0));
-  updateUniform("pointLights[0].diffuse", glm::vec3(0, 0, 0.0));
-  updateUniform("pointLights[0].specular", glm::vec3(1, 1, 1));
+  updateUniform("pointLights[0].diffuse", glm::vec3(0.0, 0.0, 0.6));
+  updateUniform("pointLights[0].specular", glm::vec3(0, 0, 1));
   updateUniform("pointLights[0].constant", 1.0f);
   updateUniform("pointLights[0].linear", 0.09f);
   updateUniform("pointLights[0].quadratic", 0.032f);
@@ -89,14 +89,16 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
   updateUniform("spotLight.outerCutOff", glm::cos(glm::radians(30.0f)));
   updateUniform("spotLight.position", player.m_camera.GetPosition());
   updateUniform("spotLight.constant", 1.0f);
-  updateUniform("spotLight.linear", 0.0f); //0.09f
-  updateUniform("spotLight.quadratic", 0.0f); //0.032f
-  updateUniform("spotLight.ambient", glm::vec3(0.1, 0.1, 0.1));
-  updateUniform("spotLight.diffuse", glm::vec3(0.8, 0.8, 0.8));
-  updateUniform("spotLight.specular", glm::vec3(1.0, 1.0, 1.0));
+  updateUniform("spotLight.linear", 0.09f); //0.09f
+  updateUniform("spotLight.quadratic", 0.032f); //0.032f
+  updateUniform("spotLight.ambient", glm::vec3(0.0, 0.0, 0.0));
+  updateUniform("spotLight.diffuse", glm::vec3(0.0, 0.8, 0.0));
+  updateUniform("spotLight.specular", glm::vec3(0.0, 1.0, 0.0));
 
 }
 
+
+// Used for background
 void Shader::Update(const Player &player) {
 
   glm::mat4 model = glm::mat4(1.0);

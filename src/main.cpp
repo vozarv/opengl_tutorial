@@ -90,7 +90,6 @@ int main(int, char **) {
     background.Draw(shader_background, player);
 
 
-
     // Draw light source
     shader_light_source.Bind();
     texture_blank.Bind(0);
@@ -101,7 +100,7 @@ int main(int, char **) {
 
     // Draw center object
     shader_complex.Bind();
-    texture_bricks.Bind(0);
+    //texture_bricks.Bind(0);
     //texture_container.Bind(0);
     // texture_container_specular.Bind(0);
     shader_complex.Update(transform_sphere, player, lightPos);
@@ -109,7 +108,7 @@ int main(int, char **) {
 
 
     // Draw blending object
-    texture_window.Bind(0);
+    //texture_window.Bind(0);
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
@@ -117,11 +116,13 @@ int main(int, char **) {
     // Draw big object
     //shader_background.Bind();
     //texture_blank.Bind(0);
-    texture_container.Bind(0);
+    //texture_container.Bind(0);
     shader_complex.Update(transform_big_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
     // background.Draw(shader_background, player);
+
+    std::cout << player.m_camera.GetPosition().x << " " << player.m_camera.GetPosition().y << " " << player.m_camera.GetPosition().z << std::endl;
 
     display.Update();
 
