@@ -23,7 +23,7 @@ Password: 12345678
 Spotlight still doesn't work properly - Solved: the FragPos variable in the vertex shader was incorrectly multiplied with the view matrix
 Material specular texture map cannot load - Solved: Needed to specify the position with "updateUniform("material.specular", 1);"
 The loaded texture is shifted on objects - Solved: The Cube texture coords were in wrong order
-Windows compatibility (GLEW, GLFW3, SDL2, GLM)
+Windows compatibility (GLEW, GLFW3, SDL2, GLM) - Solved with vcpkg and Visual Studio Clang
 WASD should move horizontally - Solved: GetHorizontalForward() function
 Scene object 
 Light handling object
