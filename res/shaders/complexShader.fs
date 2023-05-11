@@ -171,6 +171,8 @@ void main() {
 
   //FragColor = vec4(reflectDir, 1.0);
   FragColor = result;
+  //FragColor = texture(material.specular, TexCoord);
+  //FragColor = mix(texture(material.diffuse, TexCoord), texture(material.specular, TexCoord), 0.6);
   //FragColor = reflection;
   //FragColor = texture(skybox, CubeCoord);
   //FragColor = texColor;

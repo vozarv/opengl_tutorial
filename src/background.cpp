@@ -39,6 +39,7 @@ Background::Background(const std::string path)
 void Background::Draw(Shader &shader, Player &player)
 {
 
+  glBindTexture(GL_TEXTURE_CUBE_MAP, textureID); //TODO ez kell ide?
   Mesh mesh("./res/objects/cube.obj");
   glDepthMask(GL_FALSE);
   shader.Bind();

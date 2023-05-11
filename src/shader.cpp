@@ -70,10 +70,12 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
   updateUniform("viewPos", player.m_camera.GetPosition());
 
   updateUniform("material.shininess", 32.0f);
+  updateUniform("material.diffuse", (int)0);
+  updateUniform("material.specular", (int)1);
   updateUniform("dirLight.direction", glm::vec3(0, -10, 0));
-  updateUniform("dirLight.ambient", glm::vec3(0.1, 0.0, 0.0));
-  updateUniform("dirLight.diffuse", glm::vec3(0.6, 0.0, 0.0));
-  updateUniform("dirLight.specular", glm::vec3(0, 0, 0));
+  updateUniform("dirLight.ambient", glm::vec3(0.1, 0.1, 0.1));
+  updateUniform("dirLight.diffuse", glm::vec3(0.5, 0.5, 0.5));
+  updateUniform("dirLight.specular", glm::vec3(0.9, 0.9, 0.9));
 
   updateUniform("pointLights[0].position", lightPos);
   updateUniform("pointLights[0].ambient", glm::vec3(0, 0, 0));
@@ -92,8 +94,8 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
   updateUniform("spotLight.linear", 0.09f); //0.09f
   updateUniform("spotLight.quadratic", 0.032f); //0.032f
   updateUniform("spotLight.ambient", glm::vec3(0.0, 0.0, 0.0));
-  updateUniform("spotLight.diffuse", glm::vec3(0.0, 0.8, 0.0));
-  updateUniform("spotLight.specular", glm::vec3(0.0, 1.0, 0.0));
+  updateUniform("spotLight.diffuse", glm::vec3(0.0, 0.0, 0.0));
+  updateUniform("spotLight.specular", glm::vec3(1.0, 1.0, 1.0));
 
 }
 
