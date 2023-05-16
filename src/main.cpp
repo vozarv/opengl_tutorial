@@ -37,7 +37,7 @@ int main(int, char **)
 
   // Texture texture_bricks("./res/textures/bricks.jpg");
   // Texture texture_grass("./res/textures/grass.png");
-  // Texture texture_window("./res/textures/blending_transparent_window.png");
+  Texture texture_window("./res/textures/blending_transparent_window.png");
   Texture texture_torch("./res/textures/torch.jpg");
   Texture texture_blank("./res/textures/grey.png");
   // Texture texture_camouflage("./res/textures/camouflage.jpg");
@@ -78,6 +78,7 @@ int main(int, char **)
   // glm::vec4 color = glm::vec4(1, 1, 1, 1);
   // float lightIntensity = 1.0f;
 
+
   while (!display.IsClosed())
   {
 
@@ -115,7 +116,7 @@ int main(int, char **)
     mesh_monkey.Draw(WIREFRAME_MODE);
 
     // Draw blending object
-    // texture_window.Bind(0);
+    texture_window.Bind(0);
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 

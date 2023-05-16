@@ -155,14 +155,12 @@ void main() {
 
   vec4 glassColor;
 
-  //TODO Something is still off yet
-  if(refraction.x < 0.05 && refraction.y < 0.05 && refraction.z < 0.05){
+  // TODO Something is still off yet
+  if (refraction.x < 0.05 && refraction.y < 0.05 && refraction.z < 0.05) {
     glassColor = reflection;
-  }
-  else {
+  } else {
     glassColor = refraction;
   }
-
 
   // phase 1: Directional lighting
   vec4 result = CalcDirLight(dirLight, material, norm, viewDir, TexCoord);
@@ -183,12 +181,18 @@ void main() {
 
   // FragColor = vec4(reflectDir, 1.0);
   // FragColor = result;
+
+  if (gl_FragCoord.x < 400)
+    FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+  else
+    FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+
   // FragColor = texture(material.specular, TexCoord);
   // FragColor = mix(texture(material.diffuse, TexCoord),
   // texture(material.specular, TexCoord), 0.6);
-  //FragColor = glassColor;
-  //FragColor = 0.8 * glassColor + 0.2 * result;
-  FragColor = reflection;
+  // FragColor = glassColor;
+  // FragColor = 0.8 * glassColor + 0.2 * result;
+  // FragColor = reflection;
   // FragColor = texture(skybox, FragPos);
   // FragColor = texColor;
 }
