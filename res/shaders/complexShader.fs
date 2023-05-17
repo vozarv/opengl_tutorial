@@ -22,8 +22,10 @@ vec4 CalcDirLight(DirLight light, Material material, vec3 normal, vec3 viewDir,
   // diffuse shading
   float diff = max(dot(normal, lightDir), 0.0);
   // specular shading
-  vec3 reflectDir = reflect(-lightDir, normal);
-  float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+  //vec3 reflectDir = reflect(-lightDir, normal);
+  vec3 halfwayDir = normalize(lightDir + viewDir);
+  //float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+  float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
   // combine results
   vec4 ambient = vec4(light.ambient, 1.0) * texture(material.diffuse, texCoord);
   vec4 diffuse =
@@ -51,8 +53,10 @@ vec4 CalcPointLight(PointLight light, Material material, vec3 normal,
   // diffuse shading
   float diff = max(dot(normal, lightDir), 0.0);
   // specular shading
-  vec3 reflectDir = reflect(-lightDir, normal);
-  float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+  //vec3 reflectDir = reflect(-lightDir, normal);
+  vec3 halfwayDir = normalize(lightDir + viewDir);
+  //float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+  float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
   // attenuation
   float distance = length(light.position - fragPos);
   float attenuation = 1.0 / (light.constant + light.linear * distance +
@@ -97,8 +101,10 @@ vec4 CalcSpotLight(SpotLight light, Material material, vec3 normal,
       vec4(light.diffuse, 1.0) * diff * texture(material.diffuse, texCoord);
 
   // specular
-  vec3 reflectDir = reflect(-lightDir, normal);
-  float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+  //vec3 reflectDir = reflect(-lightDir, normal);
+  vec3 halfwayDir = normalize(lightDir + viewDir);
+  //float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+  float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
   vec4 specular =
       vec4(light.specular, 1.0) * spec * texture(material.specular, texCoord);
 
