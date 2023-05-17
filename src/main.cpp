@@ -36,7 +36,7 @@ int main(int, char **)
   Shader shader_normal("./res/shaders/normalShader", "./res/shaders/normalShader");
   Shader shader_background("./res/shaders/backgroundShader");
 
-  // Texture texture_bricks("./res/textures/bricks.jpg");
+  Texture texture_bricks("./res/textures/bricks.jpg");
   // Texture texture_grass("./res/textures/grass.png");
   Texture texture_window("./res/textures/blending_transparent_window.png");
   Texture texture_torch("./res/textures/torch.jpg");
@@ -107,15 +107,14 @@ int main(int, char **)
     //shader_complex.Bind();
 
 
-    //texture_container.Bind(0);
-    //texture_container_specular.Bind(1);
-    texture_blank.Bind(0);
+    texture_container.Bind(0);
+    texture_container_specular.Bind(1);
+    //texture_blank.Bind(0);
 
     // Draw center object
     shader_complex.Bind();
-    // texture_bricks.Bind(0);
+    //texture_bricks.Bind(0);
     // texture_container.Bind(0);
-    // texture_container_specular.BindSpecular(0);
     shader_complex.Update(transform_sphere, player, lightPos);
     mesh_sphere.Draw(WIREFRAME_MODE);
 

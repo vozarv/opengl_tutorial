@@ -151,19 +151,12 @@ void main() {
   vec3 viewDir = normalize(viewPos - frag_in.FragPos);
 
   vec3 reflectDir = reflect(-viewDir, norm);
-  vec3 refractDir = refract(-viewDir, norm, 1.33);
+  float ratio = 1.00 / 1.52;
+  vec3 refractDir = refract(-viewDir, norm, ratio);
 
   // background reflection
   vec4 reflection = texture(skybox, reflectDir);
   vec4 refraction = texture(skybox, refractDir);
-
-  vec4 glassColor;
-
-  if (refraction.x < 0.05 && refraction.y < 0.05 && refraction.z < 0.05) {
-    glassColor = reflection;
-  } else {
-    glassColor = refraction;
-  }
 
   // phase 1: Directional lighting
   vec4 result = CalcDirLight(dirLight, material, norm, viewDir, frag_in.TexCoord);
@@ -182,15 +175,17 @@ void main() {
     discard;
   }
 
+// TODO implement light - reflect - refract ratio
+  
   // FragColor = vec4(reflectDir, 1.0);
-  // FragColor = result;
-  FragColor = reflection;
+  FragColor = result;
+  // FragColor = reflection;
   // if (gl_FragCoord.x < 400)
   //   FragColor = vec4(1.0, 0.0, 0.0, 1.0);
   // else
   //   FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 
-  // FragColor = texture(material.specular, frag_in.TexCoord);
+  //FragColor = texture(material.diffuse, frag_in.TexCoord);
   // FragColor = mix(texture(material.diffuse, frag_in.TexCoord),
   // texture(material.specular, frag_in.TexCoord), 0.6);
   // FragColor = glassColor;

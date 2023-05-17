@@ -112,7 +112,7 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
 
   updateUniform("pointLights[0].position", lightPos);
   updateUniform("pointLights[0].ambient", glm::vec3(0, 0, 0));
-  updateUniform("pointLights[0].diffuse", glm::vec3(0.0, 0.0, 0.6));
+  updateUniform("pointLights[0].diffuse", glm::vec3(0.0, 0.0, 0.0));
   updateUniform("pointLights[0].specular", glm::vec3(0, 0, 1));
   updateUniform("pointLights[0].constant", 1.0f);
   updateUniform("pointLights[0].linear", 0.09f);
@@ -127,7 +127,7 @@ void Shader::Update(const Transform &transform, const Player &player, glm::vec3 
   updateUniform("spotLight.linear", 0.09f);     // 0.09f
   updateUniform("spotLight.quadratic", 0.032f); // 0.032f
   updateUniform("spotLight.ambient", glm::vec3(0.0, 0.0, 0.0));
-  updateUniform("spotLight.diffuse", glm::vec3(1.0, 1.0, 1.0));
+  updateUniform("spotLight.diffuse", glm::vec3(0.2, 0.2, 0.2));
   updateUniform("spotLight.specular", glm::vec3(1.0, 1.0, 1.0));
 
   updateUniform("skybox", (int)2);
