@@ -28,7 +28,7 @@ WASD should move horizontally                  - Solved: GetHorizontalForward() 
 Scene object 
 Light handling object
 Blending objects should be drawn based on distance from the camera
-Mirror effect
+Mirror effect                                  - Solved: Cube object normals were off
 
 # Windows
 

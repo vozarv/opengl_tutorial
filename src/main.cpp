@@ -33,6 +33,7 @@ int main(int, char **)
 
   Shader shader_light_source("./res/shaders/lightSourceShader", "./res/shaders/geometryShader");
   Shader shader_complex("./res/shaders/complexShader", "./res/shaders/geometryShader");
+  Shader shader_normal("./res/shaders/normalShader", "./res/shaders/normalShader");
   Shader shader_background("./res/shaders/backgroundShader");
 
   // Texture texture_bricks("./res/textures/bricks.jpg");
@@ -103,6 +104,9 @@ int main(int, char **)
     mesh_sphere.Draw(WIREFRAME_MODE);
 
 
+    //shader_complex.Bind();
+
+
     //texture_container.Bind(0);
     //texture_container_specular.Bind(1);
     texture_blank.Bind(0);
@@ -113,12 +117,24 @@ int main(int, char **)
     // texture_container.Bind(0);
     // texture_container_specular.BindSpecular(0);
     shader_complex.Update(transform_sphere, player, lightPos);
-    mesh_monkey.Draw(WIREFRAME_MODE);
+    mesh_sphere.Draw(WIREFRAME_MODE);
+
+    shader_normal.Bind();
+    shader_normal.Update(transform_sphere, player, lightPos);
+    mesh_sphere.Draw(WIREFRAME_MODE);
+    shader_complex.Bind();
+
 
     // Draw blending object
     // texture_window.Bind(0);
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
+    
+    shader_normal.Bind();
+    shader_normal.Update(transform_cube, player, lightPos);
+    mesh_cube.Draw(WIREFRAME_MODE);
+    shader_complex.Bind();
+    
 
     // Draw big object
     // shader_background.Bind();
@@ -126,6 +142,11 @@ int main(int, char **)
     // texture_container.Bind(0);
     shader_complex.Update(transform_big_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
+
+    shader_normal.Bind();
+    shader_normal.Update(transform_big_cube, player, lightPos);
+    mesh_cube.Draw(WIREFRAME_MODE);
+    shader_complex.Bind();
 
     // background.Draw(shader_background, player);
 

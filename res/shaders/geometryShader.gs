@@ -1,6 +1,6 @@
 #version 330 core
 layout(triangles) in;
-layout(line_strip, max_vertices = 6) out;
+layout(triangle_strip, max_vertices = 6) out;
 
 in VS_OUT {
 
@@ -17,6 +17,8 @@ out GS_OUT {
   vec3 FragPos;
 }
 gs_out;
+
+
 
 void main() {
 
@@ -44,6 +46,6 @@ void main() {
       (gl_in[0].gl_Position + gl_in[1].gl_Position + gl_in[2].gl_Position) / 3 +
       vec4(gs_in[2].Normal, 1.0);
   EmitVertex();
-*/
+ */
   EndPrimitive();
 }

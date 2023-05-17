@@ -159,7 +159,6 @@ void main() {
 
   vec4 glassColor;
 
-  // TODO Something is still off yet
   if (refraction.x < 0.05 && refraction.y < 0.05 && refraction.z < 0.05) {
     glassColor = reflection;
   } else {
@@ -184,8 +183,8 @@ void main() {
   }
 
   // FragColor = vec4(reflectDir, 1.0);
-   FragColor = result;
-
+  // FragColor = result;
+  FragColor = reflection;
   // if (gl_FragCoord.x < 400)
   //   FragColor = vec4(1.0, 0.0, 0.0, 1.0);
   // else
@@ -196,7 +195,7 @@ void main() {
   // texture(material.specular, frag_in.TexCoord), 0.6);
   // FragColor = glassColor;
   // FragColor = 0.8 * glassColor + 0.2 * result;
-  // FragColor = reflection;
+
   // FragColor = texture(skybox, frag_in.FragPos);
   // FragColor = texColor;
 }
