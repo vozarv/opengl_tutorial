@@ -10,6 +10,7 @@ class Shader {
 
 public:
   Shader(const std::string &fileName);
+  Shader(const std::string &fileName, const std::string &geometryFileName);
 
   void Bind();
   void Update(const Transform &transform, const Player &player,
@@ -26,7 +27,7 @@ private:
   void updateUniform(const std::string &uniformName, glm::vec3 value);
   void updateUniform(const std::string &uniformName, glm::mat4 value);
 
-  static const unsigned int NUM_SHADERS = 2;
+  static const unsigned int NUM_SHADERS = 3;
 
   GLuint m_program;
   GLuint m_shaders[NUM_SHADERS];

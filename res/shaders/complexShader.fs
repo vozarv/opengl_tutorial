@@ -125,10 +125,14 @@ vec4 CalcSpotLight(SpotLight light, Material material, vec3 normal,
 
 out vec4 FragColor;
 
-in vec2 TexCoord;
-// in vec3 CubeCoord;
-in vec3 Normal;
-in vec3 FragPos;
+
+in GS_OUT {
+
+  vec2 TexCoord;
+  vec3 Normal;
+  vec3 FragPos;
+
+} frag_in;
 
 uniform DirLight dirLight;
 #define NR_POINT_LIGHTS 1 // TODO add uniform value
@@ -143,8 +147,8 @@ uniform samplerCube skybox;
 void main() {
 
   // properties
-  vec3 norm = normalize(Normal);
-  vec3 viewDir = normalize(viewPos - FragPos);
+  vec3 norm = normalize(frag_in.Normal);
+  vec3 viewDir = normalize(viewPos - frag_in.FragPos);
 
   vec3 reflectDir = reflect(-viewDir, norm);
   vec3 refractDir = refract(-viewDir, norm, 1.33);
@@ -163,36 +167,36 @@ void main() {
   }
 
   // phase 1: Directional lighting
-  vec4 result = CalcDirLight(dirLight, material, norm, viewDir, TexCoord);
+  vec4 result = CalcDirLight(dirLight, material, norm, viewDir, frag_in.TexCoord);
 
   // phase 2: Point lights
   for (int i = 0; i < NR_POINT_LIGHTS; i++)
-    result += CalcPointLight(pointLights[i], material, norm, FragPos, viewDir,
-                             TexCoord);
+    result += CalcPointLight(pointLights[i], material, norm, frag_in.FragPos, viewDir,
+                             frag_in.TexCoord);
 
   // phase 3: Spot light
   result +=
-      CalcSpotLight(spotLight, material, norm, FragPos, viewDir, TexCoord);
+      CalcSpotLight(spotLight, material, norm, frag_in.FragPos, viewDir, frag_in.TexCoord);
 
-  vec4 texColor = texture(material.diffuse, TexCoord);
+  vec4 texColor = texture(material.diffuse, frag_in.TexCoord);
   if (texColor.a < 0.1) {
     discard;
   }
 
   // FragColor = vec4(reflectDir, 1.0);
-  // FragColor = result;
+   FragColor = result;
 
-  if (gl_FragCoord.x < 400)
-    FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-  else
-    FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+  // if (gl_FragCoord.x < 400)
+  //   FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+  // else
+  //   FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 
-  // FragColor = texture(material.specular, TexCoord);
-  // FragColor = mix(texture(material.diffuse, TexCoord),
-  // texture(material.specular, TexCoord), 0.6);
+  // FragColor = texture(material.specular, frag_in.TexCoord);
+  // FragColor = mix(texture(material.diffuse, frag_in.TexCoord),
+  // texture(material.specular, frag_in.TexCoord), 0.6);
   // FragColor = glassColor;
   // FragColor = 0.8 * glassColor + 0.2 * result;
   // FragColor = reflection;
-  // FragColor = texture(skybox, FragPos);
+  // FragColor = texture(skybox, frag_in.FragPos);
   // FragColor = texColor;
 }

@@ -31,8 +31,8 @@ int main(int, char **)
   Control control;
   Background background("./res/textures/city/");
 
-  Shader shader_light_source("./res/shaders/lightSourceShader");
-  Shader shader_complex("./res/shaders/complexShader");
+  Shader shader_light_source("./res/shaders/lightSourceShader", "./res/shaders/geometryShader");
+  Shader shader_complex("./res/shaders/complexShader", "./res/shaders/geometryShader");
   Shader shader_background("./res/shaders/backgroundShader");
 
   // Texture texture_bricks("./res/textures/bricks.jpg");
@@ -116,7 +116,7 @@ int main(int, char **)
     mesh_monkey.Draw(WIREFRAME_MODE);
 
     // Draw blending object
-    texture_window.Bind(0);
+    // texture_window.Bind(0);
     shader_complex.Update(transform_cube, player, lightPos);
     mesh_cube.Draw(WIREFRAME_MODE);
 
