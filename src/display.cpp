@@ -46,6 +46,9 @@ Display::Display(int width, int height, const std::string &title)
   // Anti-Aliasing
   glEnable(GL_MULTISAMPLE);
 
+  // Gamma-Correction
+  glEnable(GL_FRAMEBUFFER_SRGB); 
+
   SDL_SetWindowResizable(m_window, SDL_TRUE);
 
   m_width = width;

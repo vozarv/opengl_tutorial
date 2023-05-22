@@ -199,4 +199,7 @@ void main() {
 
   // FragColor = texture(skybox, frag_in.FragPos);
   // FragColor = texColor;
+
+   // float gamma = 2.2;
+   // FragColor.rgb = pow(FragColor.rgb, vec3(1.0/gamma));
 }

@@ -30,7 +30,8 @@ Texture::Texture(const std::string &fileName) {
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
                   GL_LINEAR_MIPMAP_LINEAR);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+  // For specular maps, the 3rd parameter should be GL_RGBA
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, width, height, 0, GL_RGBA,
                GL_UNSIGNED_BYTE, imageData);
   glGenerateMipmap(GL_TEXTURE_2D);
 
