@@ -51,9 +51,16 @@ int main(int, char **)
   Transform transform_cube;
   Transform transform_sphere;
   Transform transform_big_cube;
+  Transform transform_ground;
+
+  transform_ground.SetScale(glm::vec3(50, 50, 50));
+  transform_ground.SetRot(glm::vec3(glm::radians(90.0),0,0));
+  transform_ground.SetPos(glm::vec3(0,-10,0));
+
   transform_big_cube.SetScale(glm::vec3(10, 10, 10));
   transform_big_cube.SetPos(glm::vec3(30, 0, 0));
   transform_sphere.SetScale(glm::vec3(2, 2, 2));
+
   // transform_cube.SetScale(glm::vec3(2, 2, 2));
   // transform_cube.SetRot(glm::vec3(0, 0.5, 0));
   transform_cube.SetPos(glm::vec3(3, -2, 0));
@@ -92,10 +99,6 @@ int main(int, char **)
     // Draw Background
     background.Draw(shader_background, player);
 
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, background.textureID); //TODO private variable
-
-
     // Draw light source
     shader_light_source.Bind();
     // texture_blank.Bind(0);
@@ -104,8 +107,15 @@ int main(int, char **)
     mesh_sphere.Draw(WIREFRAME_MODE);
 
 
-    //shader_complex.Bind();
 
+    // Draw normal objects
+    shader_complex.Bind();
+
+    // Ground
+    texture_blank.Bind(0);
+    texture_blank.Bind(1);
+    shader_complex.Update(transform_ground, player, lightPos);
+    mesh_square.Draw(WIREFRAME_MODE);
 
     texture_container.Bind(0);
     texture_container_specular.Bind(1);
