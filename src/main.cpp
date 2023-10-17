@@ -53,6 +53,11 @@ int main(int, char **)
   Transform transform_big_cube;
   Transform transform_ground;
 
+  Transform transform_MLU;
+  transform_MLU.SetScale(glm::vec3(0.02, 0.02, 0.02));
+  transform_MLU.SetRot(glm::vec3(-PI/2, PI, 0.0));
+  transform_MLU.SetPos(glm::vec3(-25.0, 20.0, 0.0));
+
   transform_ground.SetScale(glm::vec3(50, 50, 50));
   transform_ground.SetRot(glm::vec3(glm::radians(90.0),0,0));
   transform_ground.SetPos(glm::vec3(0,-10,0));
@@ -80,6 +85,7 @@ int main(int, char **)
   Mesh mesh_cube("./res/objects/cube.obj");
   Mesh mesh_logo("./res/objects/logo.obj");
   Mesh mesh_sphere("./res/objects/sphere.obj");
+  Mesh mesh_MLU("./res/objects/MLU.obj");
 
   glm::vec4 background_color = glm::vec4(0, 0.25f, 0.2f, 0.5f);
   glm::vec3 lightPos = glm::vec3(3, 0, 0);
@@ -121,12 +127,19 @@ int main(int, char **)
     texture_container_specular.Bind(1);
     //texture_blank.Bind(0);
 
+
     // Draw center object
     shader_complex.Bind();
     //texture_bricks.Bind(0);
     // texture_container.Bind(0);
     shader_complex.Update(transform_sphere, player, lightPos);
     mesh_sphere.Draw(WIREFRAME_MODE);
+
+    shader_complex.Update(transform_MLU, player, lightPos);
+    mesh_MLU.Draw(WIREFRAME_MODE);
+
+
+    
 
     shader_normal.Bind();
     shader_normal.Update(transform_sphere, player, lightPos);
