@@ -29,12 +29,12 @@ int main(int, char **) {
   Control control;
   Background background("./res/textures/city/");
 
-  Shader shader("./res/shaders/dummy.vs", "./res/shaders/dummy.fs");
+  Shader shader("./res/shaders/materialShader.vs",
+                "./res/shaders/materialShader.fs");
+  Shader shader_t("./res/shaders/textureShader.vs",
+                  "./res/shaders/textureShader.fs");
   Shader shader_background("./res/shaders/backgroundShader.vs",
                            "./res/shaders/backgroundShader.fs");
-  Shader shader_complex("./res/shaders/complexShader.vs",
-                        "./res/shaders/complexShader.fs",
-                        "./res/shaders/geometryShader.gs");
 
   Model backpack("./res/objects/backpack/backpack.obj");
   Model MLU("./res/objects/MLU_simple.obj");
@@ -42,9 +42,10 @@ int main(int, char **) {
   Model cube("./res/objects/cube.obj");
 
   Transform transform;
-  transform.SetScale(glm::vec3(0.02, 0.02, 0.02));
+  Transform transform_MLU;
+  transform_MLU.SetScale(glm::vec3(0.02, 0.02, 0.02));
   //  transform.SetRot(glm::vec3(-PI / 2, PI, 0.0));
-  //  transform.SetPos(glm::vec3(-25.0, 20.0, 0.0));
+  transform_MLU.SetPos(glm::vec3(-25.0, 0.0, -25.0));
 
   Player player(glm::vec3(0, 0, 7), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f,
                 1000.0f);
@@ -64,23 +65,35 @@ int main(int, char **) {
     background.Draw(shader_background, player);
 
     shader.use();
-
-    // view/projection transformations
     shader.setMat4("projection", player.m_camera.GetProjection());
     shader.setMat4("view", player.m_camera.GetView());
-    shader.setMat4("model", transform.GetModel());
-
+    shader.setMat4("model", transform_MLU.GetModel());
+    shader.setVec3("viewPos", player.m_camera.GetPosition());
+    shader.setInt("skybox", (int)0);
+    shader.setVec3("dirLight.direction", glm::vec3(0.0, -100.0, 0.0));
+    shader.setVec3("dirLight.ambient", glm::vec3(0.1, 0.1, 0.1));
+    shader.setVec3("dirLight.diffuse", glm::vec3(0.5, 0.5, 0.5));
+    shader.setVec3("dirLight.specular", glm::vec3(0.9, 0.9, 0.9));
     MLU.Draw(shader);
-    //backpack.Draw(shader);
     // cube.Draw(shader);
 
-    display.Update();
+    shader_t.use();
+    shader_t.setMat4("projection", player.m_camera.GetProjection());
+    shader_t.setMat4("view", player.m_camera.GetView());
+    shader_t.setMat4("model", transform_MLU.GetModel());
+    shader_t.setVec3("viewPos", player.m_camera.GetPosition());
+    shader_t.setInt("skybox", (int)0);
+    shader_t.setVec3("dirLight.direction", glm::vec3(0.0, -100.0, 0.0));
+    shader_t.setVec3("dirLight.ambient", glm::vec3(0.1, 0.1, 0.1));
+    shader_t.setVec3("dirLight.diffuse", glm::vec3(0.5, 0.5, 0.5));
+    shader_t.setVec3("dirLight.specular", glm::vec3(0.9, 0.9, 0.9));
+    shader_t.setMat4("model", transform.GetModel());
+    backpack.Draw(shader_t);
 
+
+    display.Update();
     counter += 0.1f;
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
-    // auto tmp = player.m_camera.GetForward();
-    //  std::cout << tmp.x << " " << tmp.y << std::endl;
   }
 
   return 0;
