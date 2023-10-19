@@ -33,6 +33,14 @@ struct Vertex {
 	float m_Weights[MAX_BONE_INFLUENCE];
 };
 
+struct Material {
+    glm::vec3 ambient;    // Ka
+    glm::vec3 diffuse;    // Kd
+    glm::vec3 specular;   // Ks
+    float shininess;      // Ns
+    float transparency;   // Tr
+};
+
 struct Texture {
     unsigned int id;
     string type;
@@ -45,14 +53,16 @@ public:
     vector<Vertex>       vertices;
     vector<unsigned int> indices;
     vector<Texture>      textures;
-    unsigned int VAO;
+    Material             material;
+    unsigned int         VAO;
 
     // constructor
-    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material material)
     {
         this->vertices = vertices;
         this->indices = indices;
         this->textures = textures;
+        this->material = material;
 
         // now that we have all the required data, set the vertex buffers and its attribute pointers.
         setupMesh();
@@ -86,6 +96,12 @@ public:
             // and finally bind the texture
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
+
+        shader.setVec3("material.ambient", material.ambient);
+        shader.setVec3("material.diffuse", material.diffuse);
+        shader.setVec3("material.specular", material.specular);
+        shader.setFloat("material.shininess", material.shininess);
+        shader.setFloat("material.transparency", material.transparency);
         
         // draw mesh
         glBindVertexArray(VAO);

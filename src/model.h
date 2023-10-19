@@ -92,6 +92,7 @@ private:
     vector<Vertex> vertices;
     vector<unsigned int> indices;
     vector<Texture> textures;
+    Material mesh_material;
 
     // walk through each of the mesh's vertices
     for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -146,7 +147,30 @@ private:
         indices.push_back(face.mIndices[j]);
     }
     // process materials
+    aiColor3D ambientColor, diffuseColor, specularColor;
+    float shininess;
+    float transparency;
     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+
+    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_AMBIENT, ambientColor)) {
+      mesh_material.ambient =
+          glm::vec3(ambientColor.r, ambientColor.g, ambientColor.b);
+    }
+    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor)) {
+      mesh_material.diffuse =
+          glm::vec3(diffuseColor.r, diffuseColor.g, diffuseColor.b);
+    }
+    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_SPECULAR, specularColor)) {
+      mesh_material.specular =
+          glm::vec3(specularColor.r, specularColor.g, specularColor.b);
+    }
+    if (AI_SUCCESS == material->Get(AI_MATKEY_SHININESS, shininess)) {
+      mesh_material.shininess = shininess;
+    }
+    if (AI_SUCCESS == material->Get(AI_MATKEY_OPACITY, transparency)) {
+      mesh_material.transparency = transparency;
+    }
+
     // we assume a convention for sampler names in the shaders. Each diffuse
     // texture should be named as 'texture_diffuseN' where N is a sequential
     // number ranging from 1 to MAX_SAMPLER_NUMBER. Same applies to other
@@ -172,7 +196,7 @@ private:
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
     // return a mesh object created from the extracted mesh data
-    return Mesh(vertices, indices, textures);
+    return Mesh(vertices, indices, textures, mesh_material);
   }
 
   // checks all material textures of a given type and loads the textures if
