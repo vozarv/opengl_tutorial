@@ -49,6 +49,6 @@ add_custom_command(
   TARGET OpenGL_tutorial
   PRE_BUILD
   COMMAND ${CMAKE_COMMAND}
-  ARGS -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/res/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/res/
+  ARGS -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/res/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/res
   )
 
