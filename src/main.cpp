@@ -30,18 +30,21 @@ int main(int, char **) {
   Background background("./res/textures/city/");
 
   Shader shader("./res/shaders/dummy.vs", "./res/shaders/dummy.fs");
-  Shader shader_background("./res/shaders/backgroundShader.vs", "./res/shaders/backgroundShader.fs");
-  Shader shader_complex("./res/shaders/complexShader.vs", "./res/shaders/complexShader.fs", "./res/shaders/geometryShader.gs");
+  Shader shader_background("./res/shaders/backgroundShader.vs",
+                           "./res/shaders/backgroundShader.fs");
+  Shader shader_complex("./res/shaders/complexShader.vs",
+                        "./res/shaders/complexShader.fs",
+                        "./res/shaders/geometryShader.gs");
 
   Model backpack("./res/objects/backpack/backpack.obj");
-  //Model MLU("./res/objects/MLU.obj");
+  Model MLU("./res/objects/MLU_simple.obj");
 
   Model cube("./res/objects/cube.obj");
 
   Transform transform;
-  //transform.SetScale(glm::vec3(0.2, 0.2, 0.2));
-  // transform.SetRot(glm::vec3(-PI / 2, PI, 0.0));
-  // transform.SetPos(glm::vec3(-25.0, 20.0, 0.0));
+  transform.SetScale(glm::vec3(0.02, 0.02, 0.02));
+  //  transform.SetRot(glm::vec3(-PI / 2, PI, 0.0));
+  //  transform.SetPos(glm::vec3(-25.0, 20.0, 0.0));
 
   Player player(glm::vec3(0, 0, 7), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f,
                 1000.0f);
@@ -65,23 +68,19 @@ int main(int, char **) {
     // view/projection transformations
     shader.setMat4("projection", player.m_camera.GetProjection());
     shader.setMat4("view", player.m_camera.GetView());
+    shader.setMat4("model", transform.GetModel());
 
-    // render the loaded model
-    glm::mat4 model = transform.GetModel();
-
-    shader.setMat4("model", model);
-
-    // MLU.Draw(shader);
-    backpack.Draw(shader_complex);
-    //cube.Draw(shader);
+    MLU.Draw(shader);
+    //backpack.Draw(shader);
+    // cube.Draw(shader);
 
     display.Update();
 
     counter += 0.1f;
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
-    //auto tmp = player.m_camera.GetForward();
-    // std::cout << tmp.x << " " << tmp.y << std::endl;
+    // auto tmp = player.m_camera.GetForward();
+    //  std::cout << tmp.x << " " << tmp.y << std::endl;
   }
 
   return 0;
