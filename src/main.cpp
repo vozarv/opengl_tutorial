@@ -1,12 +1,11 @@
 #include "camera.hpp"
 #include "display.hpp"
-#include "mesh.hpp"
+#include "model.h"
 
 #include "background.hpp"
 #include "control.hpp"
 #include "player.hpp"
-#include "shader.hpp"
-#include "texture.hpp"
+
 #include "transform.hpp"
 #include <GL/glew.h>
 #include <SDL2/SDL_events.h>
@@ -24,160 +23,65 @@
 #define WIREFRAME_MODE false
 #define PI 3.14159265359
 
-int main(int, char **)
-{
+int main(int, char **) {
 
   Display display(WIDTH, HEIGHT, "Awesome World");
   Control control;
   Background background("./res/textures/city/");
 
-  Shader shader_light_source("./res/shaders/lightSourceShader", "./res/shaders/geometryShader");
-  Shader shader_complex("./res/shaders/complexShader", "./res/shaders/geometryShader");
-  Shader shader_normal("./res/shaders/normalShader", "./res/shaders/normalShader");
-  Shader shader_background("./res/shaders/backgroundShader");
+  Shader shader("./res/shaders/dummy.vs", "./res/shaders/dummy.fs");
+  Shader shader_background("./res/shaders/backgroundShader.vs", "./res/shaders/backgroundShader.fs");
+  Shader shader_complex("./res/shaders/complexShader.vs", "./res/shaders/complexShader.fs", "./res/shaders/geometryShader.gs");
 
-  Texture texture_bricks("./res/textures/bricks.jpg");
-  // Texture texture_grass("./res/textures/grass.png");
-  Texture texture_window("./res/textures/blending_transparent_window.png");
-  Texture texture_torch("./res/textures/torch.jpg");
-  Texture texture_blank("./res/textures/grey.png");
-  // Texture texture_camouflage("./res/textures/camouflage.jpg");
-  Texture texture_container("./res/textures/container2.png");
-  Texture texture_container_specular("./res/textures/container2_specular.png");
+  Model backpack("./res/objects/backpack/backpack.obj");
+  //Model MLU("./res/objects/MLU.obj");
 
-  Transform transform_logo;
-  transform_logo.SetScale(glm::vec3(2, 2.5, 2));
+  Model cube("./res/objects/cube.obj");
 
-  Transform transform_cube;
-  Transform transform_sphere;
-  Transform transform_big_cube;
-  Transform transform_ground;
-
-  Transform transform_MLU;
-  transform_MLU.SetScale(glm::vec3(0.02, 0.02, 0.02));
-  transform_MLU.SetRot(glm::vec3(-PI/2, PI, 0.0));
-  transform_MLU.SetPos(glm::vec3(-25.0, 20.0, 0.0));
-
-  transform_ground.SetScale(glm::vec3(50, 50, 50));
-  transform_ground.SetRot(glm::vec3(glm::radians(90.0),0,0));
-  transform_ground.SetPos(glm::vec3(0,-10,0));
-
-  transform_big_cube.SetScale(glm::vec3(10, 10, 10));
-  transform_big_cube.SetPos(glm::vec3(30, 0, 0));
-  transform_sphere.SetScale(glm::vec3(2, 2, 2));
-
-  // transform_cube.SetScale(glm::vec3(2, 2, 2));
-  // transform_cube.SetRot(glm::vec3(0, 0.5, 0));
-  transform_cube.SetPos(glm::vec3(3, -2, 0));
-
-  Transform transform_light_source;
-  transform_light_source.SetPos(glm::vec3(5.0f, 0.0f, 0.0f));
-  transform_light_source.SetScale(glm::vec3(0.1, 0.1, 0.1));
+  Transform transform;
+  //transform.SetScale(glm::vec3(0.2, 0.2, 0.2));
+  // transform.SetRot(glm::vec3(-PI / 2, PI, 0.0));
+  // transform.SetPos(glm::vec3(-25.0, 20.0, 0.0));
 
   Player player(glm::vec3(0, 0, 7), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f,
                 1000.0f);
-  float counter = 0.0f;
 
-  Mesh mesh_square("./res/objects/square.obj");
-  Mesh mesh_triangle("./res/objects/triangle.obj");
-  Mesh mesh_monkey("./res/objects/monkey3.obj");
-  Mesh mesh_tetrahedron("./res/objects/tetrahedron.obj");
-  Mesh mesh_cube("./res/objects/cube.obj");
-  Mesh mesh_logo("./res/objects/logo.obj");
-  Mesh mesh_sphere("./res/objects/sphere.obj");
-  Mesh mesh_MLU("./res/objects/MLU.obj");
+  float counter = 0.0f;
 
   glm::vec4 background_color = glm::vec4(0, 0.25f, 0.2f, 0.5f);
   glm::vec3 lightPos = glm::vec3(3, 0, 0);
-  // glm::vec4 color = glm::vec4(1, 1, 1, 1);
-  // float lightIntensity = 1.0f;
 
+  while (!display.IsClosed()) {
 
-  while (!display.IsClosed())
-  {
-
-    //
     control.Update(player, display);
-    lightPos = glm::vec3(3.0 * cosf(counter / 20), 0, 3.0 * sinf(counter / 20));
     display.Clear(background_color.r, background_color.g, background_color.b,
                   background_color.a);
 
     // Draw Background
     background.Draw(shader_background, player);
 
-    // Draw light source
-    shader_light_source.Bind();
-    // texture_blank.Bind(0);
-    transform_light_source.SetPos(lightPos);
-    shader_light_source.Update(transform_light_source, player, lightPos);
-    mesh_sphere.Draw(WIREFRAME_MODE);
+    shader.use();
 
+    // view/projection transformations
+    shader.setMat4("projection", player.m_camera.GetProjection());
+    shader.setMat4("view", player.m_camera.GetView());
 
+    // render the loaded model
+    glm::mat4 model = transform.GetModel();
 
-    // Draw normal objects
-    shader_complex.Bind();
+    shader.setMat4("model", model);
 
-    // Ground
-    texture_blank.Bind(0);
-    texture_blank.Bind(1);
-    shader_complex.Update(transform_ground, player, lightPos);
-    mesh_square.Draw(WIREFRAME_MODE);
-
-    texture_container.Bind(0);
-    texture_container_specular.Bind(1);
-    //texture_blank.Bind(0);
-
-
-    // Draw center object
-    shader_complex.Bind();
-    //texture_bricks.Bind(0);
-    // texture_container.Bind(0);
-    shader_complex.Update(transform_sphere, player, lightPos);
-    mesh_sphere.Draw(WIREFRAME_MODE);
-
-    shader_complex.Update(transform_MLU, player, lightPos);
-    mesh_MLU.Draw(WIREFRAME_MODE);
-
-
-    
-
-    shader_normal.Bind();
-    shader_normal.Update(transform_sphere, player, lightPos);
-    mesh_sphere.Draw(WIREFRAME_MODE);
-    shader_complex.Bind();
-
-
-    // Draw blending object
-    // texture_window.Bind(0);
-    shader_complex.Update(transform_cube, player, lightPos);
-    mesh_cube.Draw(WIREFRAME_MODE);
-    
-    shader_normal.Bind();
-    shader_normal.Update(transform_cube, player, lightPos);
-    mesh_cube.Draw(WIREFRAME_MODE);
-    shader_complex.Bind();
-    
-
-    // Draw big object
-    // shader_background.Bind();
-    // texture_blank.Bind(0);
-    // texture_container.Bind(0);
-    shader_complex.Update(transform_big_cube, player, lightPos);
-    mesh_cube.Draw(WIREFRAME_MODE);
-
-    shader_normal.Bind();
-    shader_normal.Update(transform_big_cube, player, lightPos);
-    mesh_cube.Draw(WIREFRAME_MODE);
-    shader_complex.Bind();
-
-    // background.Draw(shader_background, player);
-
-    // std::cout << player.m_camera.GetPosition().x << " " << player.m_camera.GetPosition().y << " " << player.m_camera.GetPosition().z << std::endl;
+    // MLU.Draw(shader);
+    backpack.Draw(shader_complex);
+    //cube.Draw(shader);
 
     display.Update();
 
     counter += 0.1f;
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    //auto tmp = player.m_camera.GetForward();
+    // std::cout << tmp.x << " " << tmp.y << std::endl;
   }
 
   return 0;

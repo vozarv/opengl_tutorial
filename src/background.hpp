@@ -1,7 +1,7 @@
 #pragma once
 
 #include "obj_loader.hpp"
-#include "shader.hpp"
+#include "shader.h"
 #include "transform.hpp"
 #include "player.hpp"
 #include "stb_image.h"
@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include "mesh.hpp"
+#include "model.h"
 
 
 

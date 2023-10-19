@@ -1,29 +1,22 @@
 #include "background.hpp"
 
-std::vector<std::string> faces = {
-    "right.jpg", "left.jpg",
-    "top.jpg", "bottom.jpg",
-    "front.jpg", "back.jpg"};
+std::vector<std::string> faces = {"right.jpg",  "left.jpg",  "top.jpg",
+                                  "bottom.jpg", "front.jpg", "back.jpg"};
 
-Background::Background(const std::string path)
-{
+Background::Background(const std::string path) {
 
   glGenTextures(1, &textureID);
   glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
   int width, height, nrChannels;
-  for (unsigned int i = 0; i < faces.size(); i++)
-  {
+  for (unsigned int i = 0; i < faces.size(); i++) {
     unsigned char *data =
         stbi_load((path + faces[i]).c_str(), &width, &height, &nrChannels, 0);
-    if (data)
-    {
-      glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_SRGB, width, height,
-                   0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    if (data) {
+      glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_SRGB, width,
+                   height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
       stbi_image_free(data);
-    }
-    else
-    {
+    } else {
       std::cout << "Cubemap tex failed to load at path: " << faces[i]
                 << std::endl;
       stbi_image_free(data);
@@ -36,14 +29,20 @@ Background::Background(const std::string path)
   glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
 
-void Background::Draw(Shader &shader, Player &player)
-{
+void Background::Draw(Shader &shader, Player &player) {
 
-  glBindTexture(GL_TEXTURE_CUBE_MAP, textureID); //TODO ez kell ide?
-  Mesh mesh("./res/objects/cube.obj");
+  glBindTexture(GL_TEXTURE_CUBE_MAP, textureID); // TODO ez kell ide?
+  Model model("./res/objects/cube.obj");
   glDepthMask(GL_FALSE);
-  shader.Bind();
-  shader.Update(player);
-  mesh.Draw(0);
+  shader.use();
+
+  shader.setMat4("projection", player.m_camera.GetProjection());
+  shader.setMat4("view", player.m_camera.GetDirectionalView());
+
+  // render the loaded model
+  Transform transform;
+  shader.setMat4("model", transform.GetModel());
+
+  model.Draw(shader);
   glDepthMask(GL_TRUE);
 }
