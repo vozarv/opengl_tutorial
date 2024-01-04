@@ -4,15 +4,8 @@ https://github.com/vector-of-bool/cmrc
 
 
 ## 
-sudo apt-get install libglew-dev
 
-sudo apt-get install libsdl2-dev
-
-sudo apt-get install libgl-dev
-
-sudo apt-get install libglm-dev
-
-sudo apt-get install libglfw3-dev
+sudo apt install libassimp-dev libglew-dev libsdl2-dev libgl-dev libglm-dev libglfw3-dev 
 
 ## Assimp
 https://github.com/assimp/assimp/blob/master/Build.md
@@ -49,7 +42,7 @@ Install clang in Visual Studio Installer
 
 Install vcpkg (optionally: add it to PATH)
 
-Run the following command: vcpkg install opengl glfw3 sdl2 glm glew --triplet=x64-windows
+Run the following command: vcpkg install opengl glfw3 sdl2 glm glew assimp --triplet=x64-windows
 
 Add the vcpkg toolchain file path to your project:
 
